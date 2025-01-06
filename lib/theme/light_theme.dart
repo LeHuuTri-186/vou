@@ -29,7 +29,7 @@ class LightTheme {
           fontSize: 32, // Balanced for display headers
           color: TColor.squidInk,
         ),
-        displayMedium: VarelaRoundStyle.basic.copyWith(
+        displayMedium: WorkSansStyle.basic.copyWith(
           fontSize: 28,
         ),
         headlineLarge: GoogleFonts.varelaRound(

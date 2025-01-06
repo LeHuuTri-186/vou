@@ -9,12 +9,11 @@ import '../pages/navigation_page.dart';
 import '../widgets/loading_widget.dart';
 
 class AppRouterDelegate extends RouterDelegate<String>
-    with ChangeNotifier, PopNavigatorRouterDelegateMixin<String>  {
+    with ChangeNotifier, PopNavigatorRouterDelegateMixin<String> {
   final NavigationCubit navigationCubit;
   @override
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   final AuthCubit authCubit;
-
 
   AppRouterDelegate(this.navigationCubit, this.authCubit) {
     navigationCubit.stream.listen((_) => notifyListeners());
@@ -43,7 +42,15 @@ class AppRouterDelegate extends RouterDelegate<String>
         ),
       if (currentPage == 'loading')
         FadeTransitionPage(
-          child: Container(color: TColor.doctorWhite, child: Container(color: TColor.mcFanning.withOpacity(0.2),child: Center(child: LoadingWidget.twistingDotsLoadIndicator()))),
+          child: Container(
+            color: TColor.doctorWhite,
+            child: Container(
+              color: TColor.mcFanning.withOpacity(0.2),
+              child: Center(
+                child: LoadingWidget.twistingDotsLoadIndicator(),
+              ),
+            ),
+          ),
           key: const ValueKey('LoadingPage'),
         ),
     ];
@@ -52,7 +59,6 @@ class AppRouterDelegate extends RouterDelegate<String>
       key: navigatorKey,
       pages: pages,
       onDidRemovePage: (Page<Object?> page) {
-
         pages.remove(page);
       },
     );
@@ -86,7 +92,6 @@ class FadeTransitionPage<T> extends Page<T> {
         );
 
         return FadeTransition(
-
           opacity: curvedAnimation,
           child: child,
         );

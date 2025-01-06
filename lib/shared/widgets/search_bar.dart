@@ -43,7 +43,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
         borderRadius: BorderRadius.circular(20),
       ),
       child: TextField(
-        style: VarelaRoundStyle.basicW600.copyWith(
+        style: WorkSansStyle.basicW600.copyWith(
           color: TColor.squidInk,
           fontSize: 15,
         ),
@@ -56,7 +56,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                 color: TColor.tamarama.withOpacity(0.5),
               )),
           hintText: widget.hintText,
-          hintStyle: VarelaRoundStyle.basic.copyWith(
+          hintStyle: WorkSansStyle.basic.copyWith(
             color: TColor.petRock,
             fontSize: 15
           ),

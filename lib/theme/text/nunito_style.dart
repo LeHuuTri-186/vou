@@ -8,6 +8,7 @@ class NunitoStyle {
   );
 
   static TextStyle basicW600 = GoogleFonts.nunito(
+  static TextStyle basicW600 = GoogleFonts.nunito(
     color: Colors.black,
     fontSize: 14,
     fontWeight: FontWeight.w600,
