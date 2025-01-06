@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../shared/styles/border_radius.dart';
-import '../../../../shared/styles/colors.dart';
+import '../../../../theme/color/colors.dart';
 
 class InputField extends StatefulWidget {
   const InputField({

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../shared/styles/colors.dart';
-import '../../../../shared/styles/varela_round_style.dart';
+import '../../theme/color/colors.dart';
+import '../../theme/text/varela_round_style.dart';
 
 class ButtonsPair extends StatelessWidget {
   const ButtonsPair({super.key, required this.isFirstSelected, required this.firstOnTap, required this.secondOnTap, required this.firstButtonText, required this.secondButtonText, this.borderRadius = 30});

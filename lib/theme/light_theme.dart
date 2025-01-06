@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../shared/styles/a_bee_zee_style.dart';
-import '../../shared/styles/colors.dart';
-import '../../shared/styles/varela_round_style.dart';
+import 'text/nunito_style.dart';
+import 'color/colors.dart';
+import 'text/varela_round_style.dart';
 import 'app_bar_theme.dart';
 import 'bottom_nav_theme.dart';
 
@@ -15,12 +15,12 @@ class LightTheme {
       scaffoldBackgroundColor: TColor.doctorWhite,
       appBarTheme: AppBarThemeData.lightTheme,
       textTheme: TextTheme(
-        titleLarge: NunitoFont.titleW800,
-        titleMedium: NunitoFont.titleW700.copyWith(
+        titleLarge: NunitoStyle.titleW800,
+        titleMedium: NunitoStyle.titleW700.copyWith(
           fontSize: 22, // Medium-sized titles
           color: TColor.slate,
         ),
-        titleSmall: NunitoFont.titleW600.copyWith(
+        titleSmall: NunitoStyle.titleW600.copyWith(
           fontSize: 18, // Consistent for smaller subtitles
           color: TColor.petRock,
         ),

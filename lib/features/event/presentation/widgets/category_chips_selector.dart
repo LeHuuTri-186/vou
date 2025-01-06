@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../shared/styles/colors.dart';
+import '../../../../theme/color/colors.dart';
 
 class CollapsibleCategoryChips extends StatefulWidget {
   final List<String> categories; // List of categories

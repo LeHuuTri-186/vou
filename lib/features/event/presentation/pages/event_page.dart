@@ -5,7 +5,7 @@ import 'package:vou/features/event/presentation/widgets/category_chips_selector.
 import 'package:vou/shared/styles/vertical_spacing.dart';
 
 import '../../../../shared/styles/appbar.dart';
-import '../../../../shared/styles/colors.dart';
+import '../../../../theme/color/colors.dart';
 import '../../../../shared/widgets/search_bar.dart';
 import '../widgets/event_tile.dart';
 
