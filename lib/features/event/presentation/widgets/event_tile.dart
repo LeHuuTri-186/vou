@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../shared/styles/colors.dart';
+import '../../../../theme/color/colors.dart';
 import '../../../../shared/styles/horizontal_spacing.dart';
 import '../../../../shared/styles/vertical_spacing.dart';
 

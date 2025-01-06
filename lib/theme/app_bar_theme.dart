@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../shared/styles/colors.dart';
+import 'color/colors.dart';
 
 class AppBarThemeData {
   static AppBarTheme get lightTheme => AppBarTheme(

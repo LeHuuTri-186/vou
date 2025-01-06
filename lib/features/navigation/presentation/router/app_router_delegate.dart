@@ -3,8 +3,8 @@ import 'package:vou/features/authentication/presentation/pages/sign_in_page.dart
 import 'package:vou/features/authentication/presentation/pages/sign_up_page.dart';
 import 'package:vou/features/navigation/application/navigation_cubit.dart';
 
-import '../../../../shared/styles/colors.dart';
-import '../../../authentication/presentation/bloc/auth_cubit.dart';
+import '../../../../theme/color/colors.dart';
+import '../../../authentication/bloc/auth_cubit.dart';
 import '../pages/navigation_page.dart';
 import '../widgets/loading_widget.dart';
 

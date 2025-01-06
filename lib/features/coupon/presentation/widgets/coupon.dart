@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:ticket_clippers/ticket_clippers.dart';
-import 'package:vou/shared/styles/a_bee_zee_style.dart';
+import 'package:vou/theme/text/nunito_style.dart';
 import 'package:vou/shared/styles/border_radius.dart';
 
-import '../../../../shared/styles/colors.dart';
+import '../../../../theme/color/colors.dart';
 
 class CouponWidget extends StatelessWidget {
   const CouponWidget({super.key});
@@ -67,13 +67,13 @@ class CouponWidget extends StatelessWidget {
                       children: [
                         Text(
                           'Giảm 8% Giảm tối đa 3tr vnđ',
-                          style: ABeeZeeStyle.basicW600.copyWith(
+                          style: NunitoStyle.basicW600.copyWith(
                             fontSize: 16,
                           ),
                         ),
                         Text(
                           'Đơn tối thiểu 300k',
-                          style: ABeeZeeStyle.basic.copyWith(
+                          style: NunitoStyle.basic.copyWith(
                             fontSize: 13,
                           ),
                         ),

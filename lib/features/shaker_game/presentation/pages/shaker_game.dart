@@ -3,7 +3,7 @@ import 'package:rive/rive.dart' as rive;
 import 'package:shake/shake.dart';
 import 'package:vou/shared/styles/border_radius.dart';
 
-import '../../../../shared/styles/colors.dart';
+import '../../../../theme/color/colors.dart';
 
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
