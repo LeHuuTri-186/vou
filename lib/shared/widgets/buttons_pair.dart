@@ -40,7 +40,7 @@ class ButtonsPair extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Text(
               firstButtonText,
-              style: VarelaRoundStyle.basicW600.copyWith(
+              style: WorkSansStyle.basicW600.copyWith(
                 color: isFirstSelected ? TColor.doctorWhite : TColor.squidInk,
               ),
             ),
@@ -60,7 +60,7 @@ class ButtonsPair extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Text(
               secondButtonText,
-              style: VarelaRoundStyle.basicW600.copyWith(
+              style: WorkSansStyle.basicW600.copyWith(
                 color: !isFirstSelected ? TColor.doctorWhite : TColor.squidInk,
               ),
             ),

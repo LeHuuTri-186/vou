@@ -67,13 +67,13 @@ class CouponWidget extends StatelessWidget {
                       children: [
                         Text(
                           'Giảm 8% Giảm tối đa 3tr vnđ',
-                          style: ABeeZeeStyle.basicW600.copyWith(
+                          style: NunitoFont.basicW600.copyWith(
                             fontSize: 16,
                           ),
                         ),
                         Text(
                           'Đơn tối thiểu 300k',
-                          style: ABeeZeeStyle.basic.copyWith(
+                          style: NunitoFont.basic.copyWith(
                             fontSize: 13,
                           ),
                         ),

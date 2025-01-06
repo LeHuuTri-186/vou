@@ -15,12 +15,12 @@ class LightTheme {
       scaffoldBackgroundColor: TColor.doctorWhite,
       appBarTheme: AppBarThemeData.lightTheme,
       textTheme: TextTheme(
-        titleLarge: ABeeZeeStyle.titleW800,
-        titleMedium: ABeeZeeStyle.titleW700.copyWith(
+        titleLarge: NunitoFont.titleW800,
+        titleMedium: NunitoFont.titleW700.copyWith(
           fontSize: 22, // Medium-sized titles
           color: TColor.slate,
         ),
-        titleSmall: ABeeZeeStyle.titleW600.copyWith(
+        titleSmall: NunitoFont.titleW600.copyWith(
           fontSize: 18, // Consistent for smaller subtitles
           color: TColor.petRock,
         ),
@@ -29,7 +29,7 @@ class LightTheme {
           fontSize: 32, // Balanced for display headers
           color: TColor.squidInk,
         ),
-        displayMedium: VarelaRoundStyle.basic.copyWith(
+        displayMedium: WorkSansStyle.basic.copyWith(
           fontSize: 28,
         ),
         headlineLarge: GoogleFonts.varelaRound(
