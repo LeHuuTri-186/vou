@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:vou/features/coupon/presentation/widgets/coupon.dart';
 import 'package:vou/shared/styles/vertical_spacing.dart';
 
 import '../../../../shared/styles/appbar.dart';
 import '../../../../shared/widgets/search_bar.dart';
+import '../widgets/coupon.dart';
 
 class CouponPage extends StatelessWidget {
   const CouponPage({super.key});
@@ -26,8 +26,8 @@ class CouponPage extends StatelessWidget {
               Expanded(
                 child: ListView.builder(
                   itemCount: 10, // Replace with the actual number of items
-                  itemBuilder: (context, index) => const Padding(
-                    padding: EdgeInsets.all(4.0),
+                  itemBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.all(4.0),
                     child: CouponWidget(),
                   ),
                 ),

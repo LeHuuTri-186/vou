@@ -63,7 +63,7 @@ class _PasswordInputFieldState extends State<PasswordInputField> {
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Image.asset(
-              _showPassword ? "lib/core/assets/img/eye-closed.png" : "lib/core/assets/img/eye.png",
+              _showPassword ? "images/eye.png" : "images/eye-closed.png",
               width: 15,
               height: 15,
             ),

@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'text/nunito_style.dart';
 import 'color/colors.dart';
-import 'text/varela_round_style.dart';
+import 'text/work_sans_style.dart';
 import 'app_bar_theme.dart';
 import 'bottom_nav_theme.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/color/colors.dart';
-import '../../theme/text/varela_round_style.dart';
+import '../../theme/text/work_sans_style.dart';
 
 class CustomSearchBar extends StatefulWidget {
   final ValueChanged<String> onChanged;

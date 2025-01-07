@@ -77,7 +77,7 @@ class _GameScreenState extends State<GameScreen> {
                   height: MediaQuery.of(context).size.width * 0.2,
                   child: Opacity(
                     opacity: 0.8, // Set the opacity to 0.8
-                    child: Image.asset("lib/core/assets/img/coin.png",
+                    child: Image.asset("images/coin.png",
                         fit: BoxFit.contain),
                   ),
                 ),
@@ -88,7 +88,7 @@ class _GameScreenState extends State<GameScreen> {
                   height: MediaQuery.of(context).size.width * 0.13,
                   child: Opacity(
                     opacity: 0.8,
-                    child: Image.asset("lib/core/assets/img/like-bubble.png",
+                    child: Image.asset("images/like-bubble.png",
                         fit: BoxFit.contain),
                   ),
                 ),
@@ -99,7 +99,7 @@ class _GameScreenState extends State<GameScreen> {
                   height: MediaQuery.of(context).size.width * 0.15,
                   child: Opacity(
                     opacity: 0.8,
-                    child: Image.asset("lib/core/assets/img/heart.png",
+                    child: Image.asset("images/heart.png",
                         fit: BoxFit.contain),
                   ),
                 ),
@@ -110,7 +110,7 @@ class _GameScreenState extends State<GameScreen> {
                   height: MediaQuery.of(context).size.width * 0.2,
                   child: Opacity(
                     opacity: 0.8,
-                    child: Image.asset("lib/core/assets/img/haha-emoji.png",
+                    child: Image.asset("images/haha-emoji.png",
                         fit: BoxFit.contain),
                   ),
                 ),
@@ -121,7 +121,7 @@ class _GameScreenState extends State<GameScreen> {
                   height: MediaQuery.of(context).size.width * 0.13,
                   child: Opacity(
                     opacity: 0.8,
-                    child: Image.asset("lib/core/assets/img/love-counter.png",
+                    child: Image.asset("images/love-counter.png",
                         fit: BoxFit.contain),
                   ),
                 ),
@@ -132,7 +132,7 @@ class _GameScreenState extends State<GameScreen> {
                   height: MediaQuery.of(context).size.width * 0.13,
                   child: Opacity(
                     opacity: 0.8,
-                    child: Image.asset("lib/core/assets/img/star-bubble.png",
+                    child: Image.asset("images/star-bubble.png",
                         fit: BoxFit.contain),
                   ),
                 ),

@@ -1,9 +1,8 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vou/utils/helpers/app_localization_string_builder.dart';
-import 'package:vou/features/navigation/application/navigation_cubit.dart';
 
 import '../../../../shared/styles/appbar.dart';
 import '../../../../shared/styles/border_radius.dart';
@@ -38,7 +37,7 @@ class SignUpPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Image.asset(
-                  "lib/core/assets/img/sign-up.png",
+                  "images/sign-up.png",
                   width: MediaQuery.of(context).size.width * 0.65,
                   height: MediaQuery.of(context).size.width * 0.65,
                 ),
@@ -102,7 +101,6 @@ class SignUpPage extends StatelessWidget {
                   ),
                   borderRadius: TBorderRadius.md,
                   onTap: () {
-                    context.read<AuthCubit>().navigateToSignUp();
                   },
                   child: Ink(
                     decoration: BoxDecoration(
@@ -149,7 +147,6 @@ class SignUpPage extends StatelessWidget {
         HSpacing.xs,
         TTextButton(
           onTap: () {
-            context.read<NavigationCubit>().navigateTo("signin");
           },
           text: context.getLocaleString(
             value: 'login',
