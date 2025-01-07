@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:vou/theme/app_theme.dart';
-import 'package:vou/features/navigation/application/navigation_cubit.dart';
-import 'package:vou/features/navigation/presentation/bloc/bottom_nav_bloc.dart';
-import 'package:vou/features/navigation/presentation/router/app_router_delegate.dart';
-import 'package:vou/features/navigation/presentation/router/app_route_information_parser.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'features/authentication/bloc/auth_cubit.dart';
+import 'package:vou/utils/router/app_router_config.dart';
 import 'lang/app_localizations_delegate.dart';
+import 'package:path_provider/path_provider.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final storage = await HydratedStorage.build(
+      storageDirectory: UniversalPlatform.isWeb ? HydratedStorage.webStorageDirectory : await getApplicationDocumentsDirectory()
+  );
+  HydratedBloc.storage = storage;
   runApp(const MyApp());
 }
 
@@ -18,36 +21,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Initialize the NavigationCubit and AuthCubit
-    final navigationCubit = NavigationCubit();
-    final authCubit = AuthCubit();
-    final bottomNavBloc = BottomNavBloc();
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider.value(value: navigationCubit),
-        BlocProvider.value(value: authCubit),
-        BlocProvider.value(value: bottomNavBloc),
+    return MaterialApp.router(
+      // Localization
+      localizationsDelegates: const [
+        AppLocalizationDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
-      child: MaterialApp.router(
-        // Localization
-        localizationsDelegates: const [
-          AppLocalizationDelegate(),
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          Locale('en', 'US'), // English
-          Locale('vi', 'VN'), // Vietnamese
-        ],
-        title: 'VOU',
-        theme: AppTheme.light,
-
-        // Navigation
-        routerDelegate: AppRouterDelegate(navigationCubit, authCubit),
-        routeInformationParser: AppRouteInformationParser(),
-      ),
+      supportedLocales: const [
+        Locale('en', 'US'), // English
+        Locale('vi', 'VN'), // Vietnamese
+      ],
+      title: 'VOU',
+      theme: AppTheme.light,
+      routerConfig: AppRouterConfig().router,
     );
   }
 }

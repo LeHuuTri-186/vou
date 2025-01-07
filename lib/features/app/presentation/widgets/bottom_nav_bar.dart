@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:vou/shared/widgets/image_icon.dart';
 
 import '../../../../theme/color/colors.dart';
 
@@ -22,19 +25,19 @@ class BottomNavBar extends StatelessWidget {
       onTap: onTap,
       items: const [
         BottomNavigationBarItem(
-          icon: Icon(Icons.event_rounded,),
+          icon: ImageIconWidget(imagePath: 'images/event.png'),
           label: 'Event',
         ),
         BottomNavigationBarItem(
-          icon: Icon(FontAwesomeIcons.ticket,),
+          icon: ImageIconWidget(imagePath: 'images/coupon.png'),
           label: 'My coupon',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.people_sharp,),
+          icon: ImageIconWidget(imagePath: 'images/friend.png'),
           label: 'Friend',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person,),
+          icon: ImageIconWidget(imagePath: 'images/profile.png'),
           label: 'Profile',
         ),
       ],

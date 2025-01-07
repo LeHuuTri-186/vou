@@ -5,9 +5,9 @@ class AuthInitial extends AuthState {}
 class AuthLoading extends AuthState {}
 
 class Authenticated extends AuthState {
-  final String userId;
+  final String token;
 
-  Authenticated(this.userId);
+  Authenticated(this.token);
 }
 
 class Unauthenticated extends AuthState {}
