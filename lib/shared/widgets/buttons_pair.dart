@@ -25,43 +25,49 @@ class ButtonsPair extends StatelessWidget {
 
   Widget _buildButtonPair() {
     return Row(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.max,
       children: [
-        // My Prompts Button
-        GestureDetector(
-          onTap: firstOnTap,
-          child: AnimatedContainer(
-            curve: Curves.decelerate,
-            duration: const Duration(milliseconds: 300),
-            decoration: BoxDecoration(
-              color: isFirstSelected ? TColor.tamarama : Colors.transparent,
-              borderRadius: BorderRadius.circular(borderRadius),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Text(
-              firstButtonText,
-              style: WorkSansStyle.basicW600.copyWith(
-                color: isFirstSelected ? TColor.doctorWhite : TColor.squidInk,
+        Expanded(
+          child: GestureDetector(
+            onTap: firstOnTap,
+            child: AnimatedContainer(
+              curve: Curves.decelerate,
+              duration: const Duration(milliseconds: 300),
+              decoration: BoxDecoration(
+                color: isFirstSelected ? TColor.poppySurprise : Colors.transparent,
+                borderRadius: BorderRadius.circular(borderRadius),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Center(
+                child: Text(
+                  firstButtonText,
+                  style: WorkSansStyle.basicW600.copyWith(
+                    color: isFirstSelected ? TColor.doctorWhite : TColor.squidInk,
+                  ),
+                ),
               ),
             ),
           ),
         ),
 
-        // Public Prompts Button
-        GestureDetector(
-          onTap: secondOnTap,
-          child: AnimatedContainer(
-            curve: Curves.decelerate,
-            duration: const Duration(milliseconds: 300),
-            decoration: BoxDecoration(
-              color: !isFirstSelected ? TColor.tamarama : Colors.transparent,
-              borderRadius: BorderRadius.circular(borderRadius),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Text(
-              secondButtonText,
-              style: WorkSansStyle.basicW600.copyWith(
-                color: !isFirstSelected ? TColor.doctorWhite : TColor.squidInk,
+        Expanded(
+          child: GestureDetector(
+            onTap: secondOnTap,
+            child: AnimatedContainer(
+              curve: Curves.decelerate,
+              duration: const Duration(milliseconds: 300),
+              decoration: BoxDecoration(
+                color: !isFirstSelected ? TColor.poppySurprise : Colors.transparent,
+                borderRadius: BorderRadius.circular(borderRadius),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Center(
+                child: Text(
+                  secondButtonText,
+                  style: WorkSansStyle.basicW600.copyWith(
+                    color: !isFirstSelected ? TColor.doctorWhite : TColor.squidInk,
+                  ),
+                ),
               ),
             ),
           ),

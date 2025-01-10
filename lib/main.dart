@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:universal_platform/universal_platform.dart';
+import 'package:vou/features/authentication/bloc/auth_cubit.dart';
 import 'package:vou/theme/app_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:vou/utils/router/app_router_config.dart';
@@ -13,17 +14,17 @@ Future<void> main() async {
       storageDirectory: UniversalPlatform.isWeb ? HydratedStorage.webStorageDirectory : await getApplicationDocumentsDirectory()
   );
   HydratedBloc.storage = storage;
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp.router(
       // Localization
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         AppLocalizationDelegate(),
         GlobalMaterialLocalizations.delegate,
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
       ],
       title: 'VOU',
       theme: AppTheme.light,
-      routerConfig: AppRouterConfig().router,
+      routerConfig: $config.router,
     );
   }
 }

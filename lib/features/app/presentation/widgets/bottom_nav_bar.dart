@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:vou/shared/styles/border_radius.dart';
 import 'package:vou/shared/widgets/image_icon.dart';
 
 import '../../../../theme/color/colors.dart';
@@ -15,6 +16,12 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      elevation: 1,
+      useLegacyColorScheme: false,
+      selectedFontSize: 1,
+      unselectedFontSize: 1,
+      showUnselectedLabels: false,
+      showSelectedLabels: false,
       backgroundColor: TColor.doctorWhite,
       type: BottomNavigationBarType.fixed,
       selectedLabelStyle: Theme.of(context).textTheme.bodyMedium,
@@ -23,22 +30,91 @@ class BottomNavBar extends StatelessWidget {
       unselectedItemColor: TColor.petRock,// Color for the selected icon
       currentIndex: currentIndex,
       onTap: onTap,
-      items: const [
+      items: [
+        currentIndex == 0 ? 
         BottomNavigationBarItem(
-          icon: ImageIconWidget(imagePath: 'images/event.png'),
-          label: 'Event',
+          label: '',
+          icon: AnimatedContainer(duration: Duration(milliseconds: 200),
+            curve: Curves.easeIn,
+            decoration: BoxDecoration(
+              border: Border.all(color: TColor.tamarama, width: 2),
+              borderRadius: TBorderRadius.sm,
+              color: TColor.tamarama.withOpacity(0.2)
+            ),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: ImageIconWidget(imagePath: 'assets/images/event.png'),
+              )),
+        ) : const BottomNavigationBarItem(
+          icon: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: ImageIconWidget(imagePath: 'assets/images/event.png'),
+          ),
+          label: '',
         ),
+        currentIndex == 1 ?
         BottomNavigationBarItem(
-          icon: ImageIconWidget(imagePath: 'images/coupon.png'),
-          label: 'My coupon',
+          label: '',
+          icon: AnimatedContainer(duration: Duration(milliseconds: 100),
+              curve: Curves.linear,
+              decoration: BoxDecoration(
+                  border: Border.all(color: TColor.tamarama, width: 2),
+                  borderRadius: TBorderRadius.sm,
+                  color: TColor.tamarama.withOpacity(0.2)
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: ImageIconWidget(imagePath: 'assets/images/coupon.png'),
+              )),
+        ) : const BottomNavigationBarItem(
+          label: '',
+          icon: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: ImageIconWidget(imagePath: 'assets/images/coupon.png'),
+
+          ),
         ),
+        currentIndex == 2 ?
         BottomNavigationBarItem(
-          icon: ImageIconWidget(imagePath: 'images/friend.png'),
-          label: 'Friend',
+          label: '',
+          icon: AnimatedContainer(duration: Duration(milliseconds: 100),
+              curve: Curves.linear,
+              decoration: BoxDecoration(
+                  border: Border.all(color: TColor.tamarama, width: 2),
+                  borderRadius: TBorderRadius.sm,
+                  color: TColor.tamarama.withOpacity(0.2)
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: ImageIconWidget(imagePath: 'assets/images/friend.png'),
+              )),
+        ) : const BottomNavigationBarItem(
+          label: '',
+          icon: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: ImageIconWidget(imagePath: 'assets/images/friend.png'),
+          ),
         ),
+        currentIndex == 3 ?
         BottomNavigationBarItem(
-          icon: ImageIconWidget(imagePath: 'images/profile.png'),
-          label: 'Profile',
+          label: '',
+          icon: AnimatedContainer(duration: Duration(milliseconds: 100),
+              curve: Curves.linear,
+              decoration: BoxDecoration(
+                  border: Border.all(color: TColor.tamarama, width: 2),
+                  borderRadius: TBorderRadius.sm,
+                  color: TColor.tamarama.withOpacity(0.2)
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: ImageIconWidget(imagePath: 'assets/images/shop.png'),
+              )),
+        ) : const BottomNavigationBarItem(
+          label: '',
+          icon: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: ImageIconWidget(imagePath: 'assets/images/shop.png'),
+          ),
         ),
       ],
     );

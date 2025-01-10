@@ -3,12 +3,13 @@ import 'package:vou/shared/styles/vertical_spacing.dart';
 
 import '../../../../shared/styles/appbar.dart';
 import '../../../../shared/widgets/search_bar.dart';
-import '../widgets/coupon.dart';
+import '../../../../theme/color/colors.dart';
+import '../../../../utils/helpers/coupon_sample_data.dart';
+import '../../domain/model/coupon.dart';
+import '../widgets/coupon_widget.dart';
 
 class CouponPage extends StatelessWidget {
   const CouponPage({super.key});
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TAppBar.buildAppBar(context: context, title: 'Coupon'),
@@ -24,11 +25,12 @@ class CouponPage extends StatelessWidget {
               ),
               VSpacing.sm,
               Expanded(
-                child: ListView.builder(
-                  itemCount: 10, // Replace with the actual number of items
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 10, crossAxisSpacing: 10),
+                  itemCount: $sampleCoupons.length, // Replace with the actual number of items
                   itemBuilder: (context, index) => Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: CouponWidget(),
+                    padding: const EdgeInsets.all(5.0),
+                    child: CouponWidget(coupon: $sampleCoupons[index]),
                   ),
                 ),
               ),
