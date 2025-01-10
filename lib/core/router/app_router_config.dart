@@ -73,16 +73,13 @@ class AppRouterConfig {
               path: '/event',
               name: AppRoute.events,
               pageBuilder: (_, __) => NoTransitionPage(
-                child: SharedAppBarScaffold(
-                  title: 'Event',
-                  child: MultiBlocProvider(
-                    providers: [
-                      BlocProvider.value(
-                        value: $serviceLocator<EventCubit>(),
-                      )
-                    ],
-                    child: const EventPage(),
-                  ),
+                child: MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: $serviceLocator<EventCubit>(),
+                    )
+                  ],
+                  child: const EventPage(),
                 ),
               ),
             ),
@@ -97,10 +94,7 @@ class AppRouterConfig {
               path: '/coupon',
               name: AppRoute.myCoupon,
               pageBuilder: (_, __) => const NoTransitionPage(
-                child: SharedAppBarScaffold(
-                  title: 'Coupon',
-                  child: CouponPage(),
-                ),
+                child: CouponPage(),
               ),
             ),
           ],
@@ -114,10 +108,7 @@ class AppRouterConfig {
               path: '/friend',
               name: AppRoute.friendList,
               pageBuilder: (_, __) => const NoTransitionPage(
-                child: SharedAppBarScaffold(
-                  title: 'Friend',
-                  child: FriendPage(),
-                ),
+                child: FriendPage(),
               ),
             ),
           ],

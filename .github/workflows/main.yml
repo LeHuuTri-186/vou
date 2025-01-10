@@ -1,9 +1,9 @@
 name: main
 on:
   pull_request:
-      branches:
-        - main
-        - stage
+    branches:
+      - main
+      - stage
 
 jobs:
   build_ios:
@@ -45,5 +45,3 @@ jobs:
           folderId: ${{ steps.folderId.outputs.value }}
           name: ${{ steps.branch.ouputs.branch }}_app_${{ steps.date.outputs.date }}.app
           overwrite: "true"
-            
-          
