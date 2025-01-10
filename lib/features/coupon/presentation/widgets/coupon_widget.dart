@@ -1,11 +1,9 @@
-import 'dart:math';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:ticket_clippers/ticket_clippers.dart';
 import 'package:vou/features/coupon/domain/model/coupon.dart';
+import 'package:vou/shared/styles/box_shadow.dart';
 import 'package:vou/shared/widgets/image_icon.dart';
-import 'package:vou/theme/text/nunito_style.dart';
 import 'package:vou/shared/styles/border_radius.dart';
 import 'package:vou/theme/text/work_sans_style.dart';
 
@@ -25,10 +23,7 @@ class CouponWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         boxShadow: [
-          BoxShadow(
-              color: TColor.petRock.withOpacity(0.5),
-              offset: const Offset(5, 5),
-              blurRadius: 5)
+          TBoxShadow.normalBoxShadow
         ],
         borderRadius: TBorderRadius.md,
         color: TColor.doctorWhite,

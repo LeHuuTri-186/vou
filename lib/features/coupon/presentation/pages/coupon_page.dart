@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:vou/shared/styles/vertical_spacing.dart';
 
+import '../../../../core/helpers/coupon_sample_data.dart';
 import '../../../../shared/styles/appbar.dart';
 import '../../../../shared/widgets/search_bar.dart';
 import '../../../../theme/color/colors.dart';
-import '../../../../utils/helpers/coupon_sample_data.dart';
 import '../../domain/model/coupon.dart';
 import '../widgets/coupon_widget.dart';
 

@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:vou/shared/styles/horizontal_spacing.dart';
 import 'package:vou/shared/styles/vertical_spacing.dart';
-import 'package:vou/utils/constants.dart';
+import '../../../../core/constants.dart';
 import '../../data/questions.dart';
 import '../widgets/answer_button.dart';
 

@@ -6,6 +6,7 @@ import 'package:vou/features/app/presentation/pages/shared_header_shell.dart';
 import 'package:vou/features/authentication/bloc/auth_cubit.dart';
 import 'package:vou/features/authentication/presentation/pages/sign_in_page.dart';
 import 'package:vou/features/coupon/presentation/pages/coupon_page.dart';
+import 'package:vou/features/event/bloc/event_cubit.dart';
 import 'package:vou/features/event/presentation/pages/event_page.dart';
 import 'package:vou/features/friend/presentation/pages/friend_page.dart';
 import 'package:vou/features/app/presentation/pages/home_shell.dart';
@@ -13,6 +14,7 @@ import 'package:vou/features/app/presentation/pages/home_shell.dart';
 import '../../features/authentication/bloc/auth_state.dart';
 import '../../features/authentication/presentation/pages/sign_up_page.dart';
 import '../../features/quiz/presentation/pages/quiz_page.dart';
+import '../di/service_locator.dart';
 import 'app_route.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -23,7 +25,6 @@ final _shellNavigatorFriendKey =
     GlobalKey<NavigatorState>(debugLabel: 'friend');
 final _shellNavigatorProfileKey =
     GlobalKey<NavigatorState>(debugLabel: 'profile');
-
 
 final $config = AppRouterConfig(AuthCubit());
 
@@ -41,10 +42,7 @@ class AppRouterConfig {
   );
 
   late final _routes = <RouteBase>[
-    GoRoute(
-      path: '/',
-      redirect: (_, __) => '/event'
-    ),
+    GoRoute(path: '/', redirect: (_, __) => '/event'),
     // Sign-in Route
     GoRoute(
       path: '/sign-in',
@@ -74,10 +72,17 @@ class AppRouterConfig {
             GoRoute(
               path: '/event',
               name: AppRoute.events,
-              pageBuilder: (_, __) => const NoTransitionPage(
+              pageBuilder: (_, __) => NoTransitionPage(
                 child: SharedAppBarScaffold(
                   title: 'Event',
-                  child: EventPage(),
+                  child: MultiBlocProvider(
+                    providers: [
+                      BlocProvider.value(
+                        value: $serviceLocator<EventCubit>(),
+                      )
+                    ],
+                    child: const EventPage(),
+                  ),
                 ),
               ),
             ),
