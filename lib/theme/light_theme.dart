@@ -15,7 +15,7 @@ class LightTheme {
       scaffoldBackgroundColor: TColor.doctorWhite,
       appBarTheme: AppBarThemeData.lightTheme,
       textTheme: TextTheme(
-        titleLarge: NunitoStyle.titleW800,
+        titleLarge: WorkSansStyle.titleW800,
         titleMedium: NunitoStyle.titleW700.copyWith(
           fontSize: 22, // Medium-sized titles
           color: TColor.slate,

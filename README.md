@@ -9,16 +9,13 @@
 ```
 .
 └── assets
-    ├── animations                          -> put your animated files here eg. lottie
-    ├── configs                             -> put your env files here
+    ├── animations                          -> animated files here eg. lottie
+    ├── configs                             -> env files here
     │   ├── dev.json                           -> env that is used for dev
     │   ├── prod.json                          -> env that is used for prod
     │   └── test.json                          -> env that is used for tes
-    ├── fonts                               -> put your custom font files here
-    ├── images                              -> put your image files here
-    └── translations                        -> put your translation files here
-        ├── en.json
-        └── tr.json
+    ├── fonts                               -> custom font files here
+    └── images                              -> images files here
 ```
 
 ### Features Folder
@@ -28,12 +25,12 @@ The `features` folder, which is the backbone of the application, was designed us
 └── lib
     └── features                            -> stands for FEATURE FIRST STRUCTURE
         └── feature_x                          -> seperate and put your features here
-            ├── blocs                          -> stands for APPLICATION LAYER
+            ├── bloc                           -> stands for APPLICATION LAYER
             │   ├── x_cubit.dart                  -> seperate and put your logics here
             │   └── x_state.dart
-            ├── models                         -> stands for DOMAIN LAYER
+            ├── domain                         -> stands for DOMAIN LAYER
             │   └── x_model.dart                  -> seperate and put your models here
-            ├── networking                     -> stands for DATA LAYER
+            ├── data                           -> stands for DATA LAYER
             │   └── x_repository.dart             -> seperate and put your repos here
             └── presentation                   -> stands for PRESENTATION LAYER
                 ├── widgets                       -> seperate and put your widgets here
