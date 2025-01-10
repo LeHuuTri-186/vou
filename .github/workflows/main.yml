@@ -27,8 +27,8 @@ jobs:
         id: folderId
         with:
           cond: ${{ steps.branch.outputs.branch == 'main' }}
-          if_true: ${{ secret.MAINFOLDERID }}
-          if_false: ${{ secret.TESTFOLDERID }}
+          if_true: ${{ secrets.MAINFOLDERID }}
+          if_false: ${{ secrets.TESTFOLDERID }}
       - run: flutter pub get
       - run: flutter clean
       - run: flutter build ios --release --no-codesign
@@ -40,7 +40,7 @@ jobs:
       - name: google-drive-upload-git-action
         uses: adityak74/google-drive-upload-git-action@v0.3
         with:
-          credentials: ${{ secret.CREDENTIALS }}
+          credentials: ${{ secrets.CREDENTIALS }}
           filename: "build/ios/iphoneos/Runner.app"
           folderId: ${{ steps.folderId.outputs.value }}
           name: ${{ steps.branch.ouputs.branch }}_app_${{ steps.date.outputs.date }}.app
