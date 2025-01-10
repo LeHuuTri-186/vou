@@ -5,9 +5,9 @@ class AppRoute {
   static const signIn = '/sign-in';
   static const signUp = '/sign-up';
   static const couponShop = '/coupon/shop';
-  static const myCoupon = '/me/coupon';
-  static const friendList = '/me/friends';
-  static const profile = '/me';
+  static const myCoupon = '/coupon';
+  static const friendList = '/friend';
+  static const profile = '/profile';
   static const home = '/home';
   static const events = '/event';
 }

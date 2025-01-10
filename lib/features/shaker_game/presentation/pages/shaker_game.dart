@@ -150,7 +150,7 @@ class _GameScreenState extends State<GameScreen> {
                           child: rive.RiveAnimation.asset(
                             useArtboardSize: false,
                             stateMachines: [stateShake],
-                            'lib/core/assets/rive/phone_shake_animation.riv',
+                            'animations/phone_shake_animation.riv',
                             fit: BoxFit.cover, // Adjust fit as needed
                           ),
                         ),

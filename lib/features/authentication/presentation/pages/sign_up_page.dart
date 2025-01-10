@@ -37,7 +37,7 @@ class SignUpPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Image.asset(
-                  "images/sign-up.png",
+                  "assets/images/sign-up.png",
                   width: MediaQuery.of(context).size.width * 0.65,
                   height: MediaQuery.of(context).size.width * 0.65,
                 ),

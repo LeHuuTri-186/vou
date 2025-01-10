@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
+
+import '../features/coupon/domain/model/coupon.dart';
+import '../theme/color/colors.dart';
 final $constants = Constants();
 
 @immutable
 class Constants {
-  final appTitle = 'Flutter Advanced Boilerplate';
+
+  final answerColors = [
+    TColor.poppySurprise,
+    TColor.tamarama,
+    TColor.goldenState,
+    TColor.finePine,
+  ];
+
+  final appTitle = 'VOU';
 
   /// Theme defaults.
   late final theme = _Theme();

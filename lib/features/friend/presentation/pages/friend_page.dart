@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vou/features/friend/presentation/widgets/friend_tile.dart';
 import 'package:vou/shared/widgets/buttons_pair.dart';
 
-import '../../../shared/styles/appbar.dart';
-import '../../../shared/styles/vertical_spacing.dart';
-import '../../../shared/widgets/search_bar.dart';
-import '../../event/presentation/widgets/category_chips_selector.dart';
+import '../../../../shared/styles/appbar.dart';
+import '../../../../shared/styles/vertical_spacing.dart';
+import '../../../../shared/widgets/search_bar.dart';
+import '../../../event/presentation/widgets/category_chips_selector.dart';
 
 class FriendPage extends StatefulWidget {
   const FriendPage({super.key});
@@ -48,6 +49,22 @@ class _FriendPageState extends State<FriendPage> {
               _isFirstButtonSelected
                   ? Text('Showing Friends List')
                   : Text('Showing Friend Requests'),
+              Expanded(
+                child: ListView(
+                  children: [
+                    FriendTile(),
+                    FriendTile(),
+                    FriendTile(),
+                    FriendTile(),
+                    FriendTile(),
+                    FriendTile(),
+                    FriendTile(),
+                    FriendTile(),
+                    FriendTile(),
+                    FriendTile(),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

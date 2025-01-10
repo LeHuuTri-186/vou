@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,12 +7,10 @@ import 'package:vou/shared/styles/border_radius.dart';
 import 'package:vou/shared/styles/horizontal_spacing.dart';
 import 'package:vou/shared/styles/vertical_spacing.dart';
 import 'package:vou/utils/router/app_route.dart';
-import 'package:vou/utils/router/app_router_config.dart';
 
 import '../../../../shared/styles/appbar.dart';
 import '../../../../theme/color/colors.dart';
 import '../../bloc/auth_cubit.dart';
-import '../../bloc/auth_state.dart';
 import '../widget/input_field.dart';
 import '../widget/password_input_field.dart';
 import '../widget/text_button.dart';
@@ -25,17 +22,13 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final authCubit = context.read<AuthCubit>();
 
-    if (authCubit.state is Authenticated) {
-      GoRouter.of(context).go(AppRoute.events);
-    }
-
     return Scaffold(
       appBar: TAppBar.buildAppBar(context: context, title: 'VOU'),
-      body: _buildBody(context),
+      body: _buildBody(context, authCubit),
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context, AuthCubit authCubit) {
     return SafeArea(
       child: SingleChildScrollView(
         child: Padding(
@@ -47,7 +40,7 @@ class SignInPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Image.asset(
-                  "images/sign-in.png",
+                  "assets/images/sign-in.png",
                   width: MediaQuery.of(context).size.width * 0.65,
                   height: MediaQuery.of(context).size.width * 0.65,
                 ),
@@ -106,10 +99,10 @@ class SignInPage extends StatelessWidget {
                   borderRadius: TBorderRadius.md,
                   onTap: () {
                     final token = 'dummyAuthToken';
-                    context.read<AuthCubit>().login(token);
+                    authCubit.login(token);
 
                     // Navigate to the next screen after login.
-                    GoRouter.of(context).go(AppRoute.events);
+                    GoRouter.of(context).go('/event');
                   },
                   child: Ink(
                     decoration: BoxDecoration(
