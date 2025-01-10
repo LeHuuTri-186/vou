@@ -7,24 +7,33 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:universal_platform/universal_platform.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:vou/features/authentication/bloc/auth_cubit.dart';
+import 'package:vou/features/authentication/bloc/auth_state.dart';
 
 import 'package:vou/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+  group('Authentication', () {
+    late AuthCubit authCubit;
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    setUp(() async {
+      final storage = await HydratedStorage.build(
+          storageDirectory: UniversalPlatform.isWeb ? HydratedStorage.webStorageDirectory : await getApplicationDocumentsDirectory()
+      );
+      HydratedBloc.storage = storage;
+      authCubit = AuthCubit();
+    });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    tearDown(() {
+      authCubit.close();
+    });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    test('initial state is AuthLoading', () {
+      // Assert the initial state is AuthLoading
+      expect(authCubit.state.runtimeType, AuthLoading);
+    });
   });
 }
