@@ -11,37 +11,46 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
+
       - uses: actions/setup-java@v1
         with:
           java-version: "12.x"
+
       - uses: subosito/flutter-action@v1
         with:
           channel: "stable"
-      - name: Get Branch name
+
+      - name: Get Branch Name
         id: branch
-        run: echo "::set-output name=branch::${GITHUB_REF##*/}"
+        run: echo "branch=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
       - name: Get Date
         id: date
-        run: echo "::set-output name=date::$(date + '%Y-%m-%d')"
-      - name: Get folder Id by condition
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+      - name: Set Folder ID Based on Branch
         id: folderId
-        with:
-          cond: ${{ steps.branch.outputs.branch == 'main' }}
-          if_true: ${{ secrets.MAINFOLDERID }}
-          if_false: ${{ secrets.TESTFOLDERID }}
+        run: |
+          if [ "${{ env.branch }}" == "main" ]; then
+            echo "folderId=${{ secrets.MAINFOLDERID }}" >> $GITHUB_ENV
+          else
+            echo "folderId=${{ secrets.TESTFOLDERID }}" >> $GITHUB_ENV
+          fi
+
       - run: flutter pub get
+
       - run: flutter clean
+
       - run: flutter build ios --release --no-codesign
+
       - name: Archive Files
-        run:
-          sudo apt-get update
-          sudo apt-get install zip
-          zip -r archive.zip *
-      - name: google-drive-upload-git-action
+        run: zip -r archive.zip *
+
+      - name: Upload to Google Drive
         uses: adityak74/google-drive-upload-git-action@v0.3
         with:
           credentials: ${{ secrets.CREDENTIALS }}
           filename: "build/ios/iphoneos/Runner.app"
-          folderId: ${{ steps.folderId.outputs.value }}
-          name: ${{ steps.branch.ouputs.branch }}_app_${{ steps.date.outputs.date }}.app
+          folderId: ${{ env.folderId }}
+          name: "${{ env.branch }}_app_${{ env.date }}.app"
           overwrite: "true"
