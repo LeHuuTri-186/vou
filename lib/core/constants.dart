@@ -7,6 +7,14 @@ final $constants = Constants();
 @immutable
 class Constants {
 
+  final Map<String, String> eventFilterOptions = {
+    'ALL': 'All',
+    'UPCOMING': 'Upcoming',
+    'STARTING': 'Ongoing',
+    'ENDED': 'Ended',
+    'FAVORITE': 'Favorite',
+  };
+
   final answerColors = [
     TColor.poppySurprise,
     TColor.tamarama,

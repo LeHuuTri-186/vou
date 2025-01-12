@@ -12,12 +12,15 @@ class PasswordInputField extends StatefulWidget {
     this.validator,
     this.label,
     this.prefixIcon,
+    this.controller, this.onChanged,
   });
 
   final String? hintText;
   final String? label;
   final Icon? prefixIcon;
   final FormFieldValidator<String>? validator;
+  final TextEditingController? controller;
+  final Function(String?)? onChanged;
 
   @override
   State<PasswordInputField> createState() => _PasswordInputFieldState();
@@ -47,13 +50,24 @@ class _PasswordInputFieldState extends State<PasswordInputField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: widget.onChanged,
+      maxLength: 30,
+      controller: widget.controller,
       enableSuggestions: false,
       autocorrect: false,
-      obscureText: _showPassword,
+      obscureText: !_showPassword,
       cursorColor: TColor.petRock,
       focusNode: _focusNode,
       validator: widget.validator,
       decoration: InputDecoration(
+        errorBorder: OutlineInputBorder(
+          borderRadius: TBorderRadius.lg,
+          borderSide: BorderSide(
+            color: TColor.poppySurprise,
+            width: 1.5,
+          ),
+        ),
+        counterText: '',
         suffixIcon: InkWell(
           onTap: () {
             setState(() {
@@ -63,12 +77,14 @@ class _PasswordInputFieldState extends State<PasswordInputField> {
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Image.asset(
-              _showPassword ? "assets/images/eye.png" : "assets/images/eye-closed.png",
+              !_showPassword
+                  ? "assets/images/eye.png"
+                  : "assets/images/eye-closed.png",
               width: 15,
               height: 15,
             ),
           ),
-          ),
+        ),
         prefixIcon: widget.prefixIcon,
         labelStyle: !_isFocused
             ? Theme.of(context).textTheme.bodyLarge?.copyWith(

@@ -16,7 +16,7 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      elevation: 1,
+      elevation: 8,
       useLegacyColorScheme: false,
       selectedFontSize: 1,
       unselectedFontSize: 1,
@@ -34,20 +34,20 @@ class BottomNavBar extends StatelessWidget {
         currentIndex == 0 ? 
         BottomNavigationBarItem(
           label: '',
-          icon: AnimatedContainer(duration: Duration(milliseconds: 200),
+          icon: AnimatedContainer(duration: const Duration(milliseconds: 200),
             curve: Curves.easeIn,
             decoration: BoxDecoration(
-              border: Border.all(color: TColor.tamarama, width: 2),
+              border: Border.all(color: TColor.poppySurprise.withOpacity(0.5), width: 2),
               borderRadius: TBorderRadius.sm,
-              color: TColor.tamarama.withOpacity(0.2)
+              color: TColor.poppySurprise.withOpacity(0.2)
             ),
               child: const Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(2.0),
                 child: ImageIconWidget(imagePath: 'assets/images/event.png'),
               )),
         ) : const BottomNavigationBarItem(
           icon: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(2.0),
             child: ImageIconWidget(imagePath: 'assets/images/event.png'),
           ),
           label: '',
@@ -58,18 +58,18 @@ class BottomNavBar extends StatelessWidget {
           icon: AnimatedContainer(duration: Duration(milliseconds: 100),
               curve: Curves.linear,
               decoration: BoxDecoration(
-                  border: Border.all(color: TColor.tamarama, width: 2),
+                  border: Border.all(color: TColor.poppySurprise.withOpacity(0.5), width: 2),
                   borderRadius: TBorderRadius.sm,
-                  color: TColor.tamarama.withOpacity(0.2)
+                  color: TColor.poppySurprise.withOpacity(0.2)
               ),
               child: const Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(2.0),
                 child: ImageIconWidget(imagePath: 'assets/images/coupon.png'),
               )),
         ) : const BottomNavigationBarItem(
           label: '',
           icon: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(2.0),
             child: ImageIconWidget(imagePath: 'assets/images/coupon.png'),
 
           ),
@@ -80,18 +80,18 @@ class BottomNavBar extends StatelessWidget {
           icon: AnimatedContainer(duration: Duration(milliseconds: 100),
               curve: Curves.linear,
               decoration: BoxDecoration(
-                  border: Border.all(color: TColor.tamarama, width: 2),
+                  border: Border.all(color: TColor.poppySurprise.withOpacity(0.5), width: 2),
                   borderRadius: TBorderRadius.sm,
-                  color: TColor.tamarama.withOpacity(0.2)
+                  color: TColor.poppySurprise.withOpacity(0.2)
               ),
               child: const Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(2.0),
                 child: ImageIconWidget(imagePath: 'assets/images/friend.png'),
               )),
         ) : const BottomNavigationBarItem(
           label: '',
           icon: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(2.0),
             child: ImageIconWidget(imagePath: 'assets/images/friend.png'),
           ),
         ),
@@ -101,18 +101,18 @@ class BottomNavBar extends StatelessWidget {
           icon: AnimatedContainer(duration: Duration(milliseconds: 100),
               curve: Curves.linear,
               decoration: BoxDecoration(
-                  border: Border.all(color: TColor.tamarama, width: 2),
+                  border: Border.all(color: TColor.poppySurprise.withOpacity(0.5), width: 2),
                   borderRadius: TBorderRadius.sm,
-                  color: TColor.tamarama.withOpacity(0.2)
+                  color: TColor.poppySurprise.withOpacity(0.2)
               ),
               child: const Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(2.0),
                 child: ImageIconWidget(imagePath: 'assets/images/shop.png'),
               )),
         ) : const BottomNavigationBarItem(
           label: '',
           icon: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(2.0),
             child: ImageIconWidget(imagePath: 'assets/images/shop.png'),
           ),
         ),

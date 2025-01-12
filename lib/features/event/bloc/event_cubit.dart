@@ -1,43 +1,59 @@
 import 'package:bloc/bloc.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:vou/core/logger/sentry_logger_util.dart';
-import 'package:vou/features/event/bloc/event_state.dart';
-import 'package:vou/features/event/domain/usecases/get_all_event_usecase.dart';
 
-import '../../../core/usecases/usecase.dart';
+import '../../../core/logger/sentry_logger_util.dart';
+import '../domain/entities/event_filter_model.dart';
+import '../domain/usecases/get_all_event_usecase.dart';
+import '../domain/usecases/get_event_by_filter_usecase.dart';
+import 'event_state.dart';
 
 class EventCubit extends Cubit<EventState> {
   final GetAllEventUseCase _getAllEventUseCase;
+  final GetEventByFilterUseCase _getEventByFilterUseCase;
+
+  // Internal tracking for pagination
+  List<dynamic> _eventList = [];
+  int _currentPage = 1;
+  bool _hasMoreEvents = true;
 
   EventCubit({
     required GetAllEventUseCase getAllEventUseCase,
+    required GetEventByFilterUseCase getEventByFilterUseCase,
   })  : _getAllEventUseCase = getAllEventUseCase,
+        _getEventByFilterUseCase = getEventByFilterUseCase,
         super(LoadingEvent());
 
-  Future<void> fetchEvents() async {
-    emit(
-      LoadingEvent(),
-    );
-    try {
-      final events = await _getAllEventUseCase(
-        NoParams(),
-      );
-      emit(
-        EventLoaded(
-          eventList: events,
-        ),
-      );
-    } catch (exception, stackTrace) {
-      LoggerUtil.captureException(
-        exception,
-        stackTrace: stackTrace,
-      );
+  Future<void> fetchInitialEvents(EventFilter initialFilter) async {
+    _currentPage = 1;
+    _hasMoreEvents = true;
+    _eventList = [];
+    emit(LoadingEvent());
+    await _loadMoreEvents(initialFilter);
+  }
 
-      emit(
-        EventError(
-          error: exception.toString(),
-        ),
-      );
+  Future<void> loadMoreEvents(EventFilter baseFilter) async {
+    if (_hasMoreEvents && state is! LoadingEvent) {
+      emit(LoadingMoreEvent(eventList: _eventList));
+      await _loadMoreEvents(baseFilter);
+    }
+  }
+
+  Future<void> _loadMoreEvents(EventFilter baseFilter) async {
+    try {
+      // Update filter with current page
+      final updatedFilter = baseFilter.copyWith(page: _currentPage);
+      final events = await _getEventByFilterUseCase.call(updatedFilter);
+
+      if (events.isEmpty) {
+        _hasMoreEvents = false;
+      } else {
+        _currentPage++;
+        _eventList.addAll(events);
+      }
+
+      emit(EventLoaded(eventList: _eventList));
+    } catch (exception, stackTrace) {
+      LoggerUtil.captureException(exception, stackTrace: stackTrace);
+      emit(EventError(error: exception.toString()));
     }
   }
 }

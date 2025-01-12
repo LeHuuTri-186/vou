@@ -1,28 +1,58 @@
 import 'package:dio/dio.dart';
 
-class ApiInterceptors extends Interceptor {
-  @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    // Add headers or other request modifications
-    options.headers['Authorization'] = 'Bearer YOUR_ACCESS_TOKEN';
-    print('Sending request to: ${options.baseUrl}${options.path}');
-    return handler.next(options); // Continue the request
-  }
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import '../storage/hive_service.dart';
+
+class SharedInterceptor extends Interceptor {
+  final HiveService _hiveService;
+  final Dio _dio;
+
+  SharedInterceptor({required HiveService hiveService, required Dio dio}): _hiveService = hiveService, _dio = dio;
 
   @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
-    // Log or handle the response
-    print('Response received: ${response.statusCode}');
-    return handler.next(response); // Continue the response
-  }
-
-  @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
-    // Handle errors like token expiration
-    print('Error occurred: ${err.message}');
-    if (err.response?.statusCode == 401) {
-      // Handle token refresh logic if needed
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+    final token = _hiveService.get('accessToken');
+    if (token != null) {
+      options.headers['Authorization'] = 'Bearer $token';
     }
-    return handler.next(err); // Continue the error handling
+    super.onRequest(options, handler);
+  }
+
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) async {
+    if (err.response?.statusCode == 401) {
+      final refreshToken = _hiveService.get('refreshToken');
+      if (refreshToken != null) {
+        try {
+          // Refresh the token
+          final response = await Dio().post(dotenv.env['REFRESH_TOKEN_END_POINT'] ?? '', data: {
+            'refreshToken': refreshToken,
+          });
+
+          final newAccessToken = response.data['accessToken'];
+          _hiveService.save('accessToken', newAccessToken);
+
+          // Retry the failed request
+          final opts = err.requestOptions;
+          opts.headers['Authorization'] = 'Bearer $newAccessToken';
+
+          final retryResponse = await _dio.request(
+            opts.path,
+            options: Options(
+              method: opts.method,
+              headers: opts.headers,
+            ),
+            data: opts.data,
+            queryParameters: opts.queryParameters,
+          );
+
+          return handler.resolve(retryResponse);
+        } catch (e) {
+          return handler.next(err);
+        }
+      }
+    }
+    super.onError(err, handler);
   }
 }

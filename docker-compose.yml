@@ -1,0 +1,243 @@
+version: '3.9'
+
+services:
+  database:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: vouappgame
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - "5532:5432"
+    networks:
+      - vou-network
+    volumes:
+      - database-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - vou-network
+    volumes:
+      - redis-data:/data
+
+  # Domain Services
+
+  event:
+    image: skillsharp123/va-event
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database
+    restart: on-failure:5
+    environment:
+      - DATABASE_URL=postgresql://postgres:123456@database:5432/vouappevent?schema=public
+      - PORT=3000
+    networks:
+      - vou-network
+
+  game:
+    image: skillsharp123/va-game
+    ports:
+      - "3001:3001"
+    depends_on:
+      - database
+    restart: on-failure:5
+    environment:
+      - DATABASE_URL=postgresql://postgres:123456@database:5432/vouappgame?schema=public
+      - PORT=3001
+    networks:
+      - vou-network
+
+  sauthen:
+    image: asteroidvn/sauthen
+    ports:
+      - "3002:3002"
+    depends_on:
+      - database
+    restart: on-failure:1
+    environment:
+      - DATABASE_URL=postgresql://postgres:123456@database:5432/SAuthen?schema=public
+      - PORT=3002
+      - JWT_SECRET=my_fucking_secret_key
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - EMAIL_USER=hungtruongvinh66@gmail.com
+      - EMAIL_PASSKEY=wuyc lmms hhsi fyks
+    networks:
+      - vou-network
+
+  sapromotion:
+    image: asteroidvn/sapromotion
+    ports:
+      - "3003:3003"
+    depends_on:
+      - database
+    restart: on-failure:5
+    environment:
+      - DATABASE_URL=postgresql://postgres:123456@database:5432/SApromotion?schema=public
+      - PORT=3003
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDEEM_API_BASE_URL=http://saredeemapi:3004
+    networks:
+      - vou-network
+
+  saredeemapi:
+    image: asteroidvn/saredeemapi
+    ports:
+      - "3004:3004"
+    depends_on:
+      - database
+    restart: on-failure:5
+    environment:
+      - PORT=3004
+    networks:
+      - vou-network
+  
+  notification:
+    image: toancva153/notificationservice
+    ports:
+      - "3005:3005"
+    depends_on:
+      - database
+    restart: on-failure:5
+    environment:
+      - DB_USER=postgres
+      - DB_PASSWORD=123456
+      - DB_HOST=database
+      - DB_NAME=vouappnotification
+      - DB_PORT=5432
+      - PORT=3005
+      - JWT_SECRET=my_fucking_secret_key
+    networks:
+      - vou-network
+
+  puzzle:
+    image: skillsharp123/va-puzzle
+    ports:
+      - "4000:4000"
+    depends_on:
+      - database
+    restart: on-failure:5
+    environment:
+      - DATABASE_URL=postgresql://postgres:123456@database:5432/vougamepuzzle?schema=public
+      - PORT=4000
+    networks:
+      - vou-network
+
+  quiz:
+    image: skillsharp123/va-quiz
+    ports:
+      - "4001:4001"
+      - "4101:4101"
+    depends_on:
+      - database
+    restart: on-failure:5
+    environment:
+      - DATABASE_URL=postgresql://postgres:123456@database:5432/vougamequiz?schema=public
+      - PORT=4001
+      - SOCKET_PORT=4101
+    networks:
+      - vou-network
+
+  # Kong API Gateway
+
+  kong-database:
+    image: postgres:9.6
+    container_name: kong-database
+    environment:
+      POSTGRES_USER: kong
+      POSTGRES_DB: kong
+      POSTGRES_PASSWORD: kong
+    ports:
+      - "1000:5432"
+    volumes:
+      - kong-db:/var/lib/postgresql/data
+    networks:
+      - kong-net
+
+  kong-migrations:
+    image: kong:latest
+    container_name: kong-migrations
+    restart: on-failure
+    depends_on:
+      - kong-database
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: kong-database
+      KONG_PG_USER: kong
+      KONG_PG_PASSWORD: kong
+      KONG_CASSANDRA_CONTACT_POINTS: kong-database
+    entrypoint: sh -c "sleep 100 && kong migrations bootstrap --vv"
+    networks:
+      - kong-net
+
+  kong:
+    image: kong:latest
+    container_name: kong
+    restart: on-failure
+    networks:
+      - kong-net
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: kong-database
+      KONG_PG_USER: kong
+      KONG_PG_PASSWORD: kong
+      KONG_CASSANDRA_CONTACT_POINTS: kong-database
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001, 0.0.0.0:8444 ssl
+      KONG_ADMIN_GUI_LISTEN: 0.0.0.0:8002
+    ports:
+      - "1001:8000"
+      - "1002:8443"
+      - "1003:8001"
+      - "1004:8444"
+      - "1006:8002"
+
+  konga-prepare:
+    image: pantsel/konga
+    container_name: konga-prepare
+    command: "-c prepare -a postgres -u postgresql://kong:kong@kong-database:5432/konga"
+    networks:
+      - kong-net
+    restart: on-failure
+    depends_on:
+      - kong-database
+
+  konga:
+    image: pantsel/konga
+    container_name: konga
+    restart: on-failure
+    depends_on:
+      - kong-database
+    networks:
+      - kong-net
+    environment:
+      DB_ADAPTER: postgres
+      DB_HOST: kong-database
+      DB_PORT: 5432
+      DB_USER: kong
+      DB_PASSWORD: kong
+      DB_DATABASE: konga
+      KONGA_HOOK_TIMEOUT: 120000
+      NODE_ENV: production
+    ports:
+      - "1005:1337"
+
+networks:
+  vou-network:
+    driver: bridge
+  kong-net:
+    name: kong-net
+    driver: bridge
+
+volumes:
+  database-data:
+  redis-data:
+  kong-db:

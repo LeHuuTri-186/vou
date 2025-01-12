@@ -2,8 +2,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vou/core/storage/hive_service.dart';
 import 'package:vou/features/app/presentation/pages/shared_header_shell.dart';
 import 'package:vou/features/authentication/bloc/auth_cubit.dart';
+import 'package:vou/features/authentication/bloc/sign_up_form_cubit.dart';
+import 'package:vou/features/authentication/domain/usecases/request_otp_usecase.dart';
+import 'package:vou/features/authentication/domain/usecases/sign_in_usecase.dart';
+import 'package:vou/features/authentication/domain/usecases/sign_out_usecase.dart';
+import 'package:vou/features/authentication/domain/usecases/sign_up_usecase.dart';
+import 'package:vou/features/authentication/presentation/pages/otp_page.dart';
 import 'package:vou/features/authentication/presentation/pages/sign_in_page.dart';
 import 'package:vou/features/coupon/presentation/pages/coupon_page.dart';
 import 'package:vou/features/event/bloc/event_cubit.dart';
@@ -26,7 +33,13 @@ final _shellNavigatorFriendKey =
 final _shellNavigatorProfileKey =
     GlobalKey<NavigatorState>(debugLabel: 'profile');
 
-final $config = AppRouterConfig(AuthCubit());
+final $config = AppRouterConfig(AuthCubit(
+  hiveService: $serviceLocator<HiveService>(),
+  signOutUseCase: $serviceLocator<SignOutUseCase>(),
+  requestOtpUseCase: $serviceLocator<RequestOtpUseCase>(),
+  signUpUseCase: $serviceLocator<SignUpUseCase>(),
+  signInUseCase: $serviceLocator<SignInUseCase>(),
+));
 
 class AppRouterConfig {
   final AuthCubit authCubit;
@@ -43,13 +56,13 @@ class AppRouterConfig {
 
   late final _routes = <RouteBase>[
     GoRoute(path: '/', redirect: (_, __) => '/event'),
-    // Sign-in Route
+
     GoRoute(
       path: '/sign-in',
       name: AppRoute.signIn,
       builder: (context, state) => BlocProvider.value(
         value: authCubit,
-        child: const SignInPage(),
+        child: SignInPage(),
       ),
     ),
 
@@ -57,12 +70,35 @@ class AppRouterConfig {
     GoRoute(
       path: '/sign-up',
       name: AppRoute.signUp,
-      builder: (context, state) => const SignUpPage(),
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: authCubit),
+          BlocProvider.value(value: $serviceLocator<SignUpFormCubit>())
+        ],
+        child: SignUpPage(),
+      ),
+      routes: [
+        GoRoute(
+          path: 'otp',
+          builder: (context, state) => MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: authCubit),
+              BlocProvider.value(value: $serviceLocator<SignUpFormCubit>())
+            ],
+            child: OtpPage(),
+          ),
+        ),
+      ],
     ),
 
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
-        return HomePage(navigationShell: navigationShell);
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: authCubit),
+          ],
+          child: HomeScaffold(navigationShell: navigationShell),
+        );
       },
       branches: [
         // Events Tab
@@ -79,7 +115,7 @@ class AppRouterConfig {
                       value: $serviceLocator<EventCubit>(),
                     )
                   ],
-                  child: const EventPage(),
+                  child: EventPage(),
                 ),
               ),
             ),
@@ -137,19 +173,18 @@ class AppRouterConfig {
     final authState = authCubit.state;
     final authenticated = authState is Authenticated;
 
-    // If not authenticated, redirect to sign-in
-    if (!authenticated && state.location != AppRoute.signIn) {
+    if (!authenticated &&
+        (state.location != AppRoute.signIn &&
+            !state.location.contains(AppRoute.signUp))) {
       return '/sign-in';
     }
 
-    // If already authenticated, prevent access to sign-in or sign-up
     if (authenticated &&
         (state.location == AppRoute.signIn ||
             state.location == AppRoute.signUp)) {
       return '/event';
     }
 
-    // No redirection needed
     return null;
   }
 }

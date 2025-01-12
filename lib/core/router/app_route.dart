@@ -10,4 +10,5 @@ class AppRoute {
   static const profile = '/profile';
   static const home = '/home';
   static const events = '/event';
+  static const otp = '/sign-up/otp';
 }

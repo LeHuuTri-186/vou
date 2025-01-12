@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:vou/features/event/data/models/event_dto.dart';
 
 class EventApiDatasource {
-  late Dio _dio;
+  final Dio _dio;
 
   EventApiDatasource({required Dio dio}) : _dio = dio;
 
@@ -12,4 +12,14 @@ class EventApiDatasource {
 
     return response;
   }
+
+  Future<Response> getEventByFilter(Map<String, dynamic> data) async {
+    debugPrint(data.toString());
+    Response response = await _dio.post(dotenv.env['EVENT_QUERY_END_POINT'] ?? '', data: data);
+
+    debugPrint(response.statusMessage??'Error');
+
+    return response;
+  }
+
 }
