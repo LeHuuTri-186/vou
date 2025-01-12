@@ -9,6 +9,7 @@ import 'package:vou/features/event/presentation/widgets/calendar.dart';
 import 'package:vou/features/event/presentation/widgets/category_chips_selector.dart';
 import 'package:vou/shared/styles/border_radius.dart';
 import 'package:vou/shared/styles/vertical_spacing.dart';
+import 'package:vou/shared/widgets/image_icon.dart';
 
 import '../../../../shared/styles/appbar.dart';
 import '../../../../shared/styles/box_shadow.dart';
@@ -99,75 +100,56 @@ class EventPage extends StatelessWidget {
 
   SafeArea _buildErrorPanel(BuildContext context) {
     return SafeArea(
-      child: Center(
-        child: Container(
-          decoration: BoxDecoration(
-            color: TColor.doctorWhite,
-            boxShadow: [TBoxShadow.normalBoxShadow],
-            borderRadius: TBorderRadius.md,
-          ),
-          child: Column(
-            children: [
-              Flexible(
-                child: Container(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            VSpacing.sm,
+            AutoSizeText(
+              "An Error occurred!",
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: TColor.petRock,
+              ),
+            ),
+            VSpacing.sm,
+            const ImageIconWidget(
+              imagePath: 'assets/images/error.png',
+              width: 300,
+              height: 300,
+            ),
+            VSpacing.sm,
+            AutoSizeText(
+              "Please try again!",
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: TColor.petRock,
+                    fontSize: 16,
+                  ),
+            ),
+            VSpacing.sm,
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () => context.read<EventCubit>().fetchEvents(),
+                borderRadius: TBorderRadius.md,
+                child: Ink(
                   decoration: BoxDecoration(
                     color: TColor.poppySurprise,
                     borderRadius: TBorderRadius.md,
                   ),
-                  child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: AutoSizeText(
-                      "An Error occurred!",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      "Try again",
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             color: TColor.doctorWhite,
                           ),
                     ),
                   ),
                 ),
               ),
-              Flexible(
-                child: Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      AutoSizeText(
-                        "Please try again",
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: TColor.petRock,
-                            ),
-                      ),
-                      VSpacing.md,
-                      Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () async =>
-                              await context.read<EventCubit>().fetchEvents(),
-                          borderRadius: TBorderRadius.md,
-                          child: Ink(
-                            decoration: BoxDecoration(
-                              color: TColor.poppySurprise,
-                              borderRadius: TBorderRadius.md,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: AutoSizeText(
-                                "Try again",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .copyWith(
-                                      color: TColor.doctorWhite,
-                                    ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+            VSpacing.md,
+          ],
         ),
       ),
     );
