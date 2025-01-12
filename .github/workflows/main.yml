@@ -55,14 +55,11 @@ jobs:
         with:
           name: ios-build
 
-      - name: Extract Artifact
-        run: unzip archive.zip
-
       - name: Upload to Google Drive
         uses: adityak74/google-drive-upload-git-action@v0.3
         with:
           credentials: ${{ secrets.CREDENTIALS }}
-          filename: "build/ios/iphoneos/Runner.app"
+          filename: "archive.zip"
           folderId: ${{ secrets.MAINFOLDERID }}
           name: "${{ needs.build_ios.outputs.branch }}_app_${{ needs.build_ios.outputs.date }}.app"
           overwrite: "true"
