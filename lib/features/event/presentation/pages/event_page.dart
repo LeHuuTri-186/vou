@@ -2,30 +2,31 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vou/core/logger/sentry_logger_util.dart';
+import 'package:vou/core/constants.dart';
 import 'package:vou/features/event/bloc/event_cubit.dart';
 import 'package:vou/features/event/bloc/event_state.dart';
-import 'package:vou/features/event/presentation/widgets/calendar.dart';
-import 'package:vou/features/event/presentation/widgets/category_chips_selector.dart';
+import 'package:vou/features/event/domain/entities/event_filter_model.dart';
+import 'package:vou/features/event/presentation/widgets/category_selector.dart';
 import 'package:vou/shared/styles/border_radius.dart';
 import 'package:vou/shared/styles/vertical_spacing.dart';
+import 'package:vou/shared/widgets/buttons_pair.dart';
 import 'package:vou/shared/widgets/image_icon.dart';
 
-import '../../../../shared/styles/appbar.dart';
-import '../../../../shared/styles/box_shadow.dart';
 import '../../../../shared/widgets/loading_widget.dart';
 import '../../../../theme/color/colors.dart';
 import '../../../../shared/widgets/search_bar.dart';
 import '../widgets/event_tile.dart';
 
 class EventPage extends StatelessWidget {
-  const EventPage({super.key});
+  EventPage({super.key});
+
+  late EventFilter eventFilter;
 
   @override
   Widget build(BuildContext context) {
-    context.read<EventCubit>().fetchEvents();
+    eventFilter = EventFilter(searchName: '', userStatusFilter: [], statusFilter: [], page: 1, perPage: 5, sorts: []);
+    context.read<EventCubit>().fetchInitialEvents(eventFilter);
     return Scaffold(
-      appBar: TAppBar.buildAppBar(context: context, title: 'Event'),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -45,7 +46,88 @@ class EventPage extends StatelessWidget {
                       child: Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Dialog(
+                                  backgroundColor: TColor.doctorWhite,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text("Filter",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium),
+                                            CloseButton(
+                                              onPressed:
+                                                  Navigator.of(context).pop,
+                                            )
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                VSpacing.md,
+                                                Text("Event Status",
+                                                    style: Theme.of(context)
+                                                        .textTheme.bodyLarge),
+                                                CategoryChips(categories: $constants.eventFilterOptions.values.toList(), onSelectionChanged: (categories) {},),
+                                                VSpacing.md,
+                                                Text("Sort",
+                                                    style: Theme.of(context)
+                                                        .textTheme.bodyLarge),
+                                                ButtonsPair(isFirstSelected: true, firstOnTap: () {}, secondOnTap: () {}, firstButtonText: "Ascending", secondButtonText: "Descending", borderRadius: 4,),
+                                                VSpacing.md,
+
+                                                Align(
+                                                  alignment: Alignment.centerRight,
+                                                  child: Material(
+                                                    color: Colors.transparent,
+                                                    child: InkWell(
+                                                      onTap: () => {
+
+                                                      },
+                                                      borderRadius: TBorderRadius.md,
+                                                      child: Ink(
+                                                        decoration: BoxDecoration(
+                                                          color: TColor.poppySurprise,
+                                                          borderRadius: TBorderRadius.md,
+                                                        ),
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 4.0),
+                                                          child: AutoSizeText(
+                                                            "Ok",
+                                                            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                                              color: TColor.doctorWhite,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
                           borderRadius: BorderRadius.circular(8),
                           splashColor: TColor.petRock.withOpacity(0.3),
                           child: Padding(
@@ -108,8 +190,8 @@ class EventPage extends StatelessWidget {
             AutoSizeText(
               "An Error occurred!",
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                color: TColor.petRock,
-              ),
+                    color: TColor.petRock,
+                  ),
             ),
             VSpacing.sm,
             const ImageIconWidget(
@@ -129,7 +211,7 @@ class EventPage extends StatelessWidget {
             Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: () => context.read<EventCubit>().fetchEvents(),
+                onTap: () => context.read<EventCubit>().fetchInitialEvents(eventFilter),
                 borderRadius: TBorderRadius.md,
                 child: Ink(
                   decoration: BoxDecoration(

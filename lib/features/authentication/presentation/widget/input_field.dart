@@ -9,13 +9,15 @@ class InputField extends StatefulWidget {
     this.hintText,
     this.validator,
     this.label,
-    this.prefixIcon,
+    this.prefixIcon, this.controller, this.onChanged,
   });
 
   final String? hintText;
   final String? label;
   final Icon? prefixIcon;
   final FormFieldValidator<String>? validator;
+  final TextEditingController? controller;
+  final Function(String?)? onChanged;
 
   @override
   State<InputField> createState() => _InputFieldState();
@@ -44,12 +46,24 @@ class _InputFieldState extends State<InputField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: widget.onChanged,
+      controller: widget.controller,
+      maxLength: 30,
       enableSuggestions: false,
       autocorrect: false,
       cursorColor: TColor.petRock,
       focusNode: _focusNode,
       validator: widget.validator,
       decoration: InputDecoration(
+        errorMaxLines: 2,
+        errorBorder: OutlineInputBorder(
+          borderRadius: TBorderRadius.lg,
+          borderSide: BorderSide(
+            color: TColor.poppySurprise,
+            width: 1.5,
+          ),
+        ),
+        counterText: '',
         prefixIcon: widget.prefixIcon,
         labelStyle: !_isFocused
             ? Theme.of(context).textTheme.bodyLarge?.copyWith(

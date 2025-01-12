@@ -10,12 +10,13 @@ import '../widgets/coupon_widget.dart';
 
 class CouponPage extends StatelessWidget {
   const CouponPage({super.key});
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TAppBar.buildAppBar(context: context, title: 'Coupon'),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(4.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
               CustomSearchBar(

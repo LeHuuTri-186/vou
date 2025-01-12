@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../theme/color/colors.dart';
+import '../../theme/color/colors.dart';
 
 class TTextButton extends StatelessWidget {
   const TTextButton({

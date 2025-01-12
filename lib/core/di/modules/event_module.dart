@@ -1,11 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:vou/core/di/service_locator.dart';
+import 'package:vou/core/network/api_interceptors.dart';
 import 'package:vou/features/event/bloc/event_cubit.dart';
 import 'package:vou/features/event/data/datasources/event_api_datasource.dart';
 import 'package:vou/features/event/data/repositories/event_repository_impl.dart';
 import 'package:vou/features/event/domain/repositories/event_repository.dart';
 import 'package:vou/features/event/domain/usecases/get_all_event_usecase.dart';
+
+import '../../../features/event/domain/usecases/get_event_by_filter_usecase.dart';
 
 void setUpEventModule() {
   Dio dio = Dio();
@@ -13,7 +16,7 @@ void setUpEventModule() {
   dio.options.baseUrl = dotenv.env['EVENT_API_BASE_URL'] ?? '';
 
   dio.interceptors.add(
-    _setUpInterceptorsWrapper(),
+    $serviceLocator<SharedInterceptor>(),
   );
 
   // Datasource setup
@@ -37,10 +40,17 @@ void setUpEventModule() {
     ),
   );
 
+  $serviceLocator.registerLazySingleton<GetEventByFilterUseCase>(
+        () => GetEventByFilterUseCase(
+      repository: $serviceLocator<EventRepository>(),
+    ),
+  );
+
   // Bloc setup
   $serviceLocator.registerLazySingleton<EventCubit>(
     () => EventCubit(
       getAllEventUseCase: $serviceLocator<GetAllEventUseCase>(),
+      getEventByFilterUseCase: $serviceLocator<GetEventByFilterUseCase>(),
     ),
   );
 }

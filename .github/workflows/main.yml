@@ -59,6 +59,6 @@ jobs:
         with:
           credentials: ${{ secrets.CREDENTIALS }}
           filename: "archive.zip"
-          folderId: ${{ secrets.MAINFOLDERID }}
-          name: "${{ needs.build_ios.outputs.branch }}_app_${{ needs.build_ios.outputs.date }}.app"
+          folderId: ${{ env.folderId }}
+          name: "${{ env.branch }}_app_${{ env.date }}.app"
           overwrite: "true"
