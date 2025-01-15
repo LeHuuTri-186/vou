@@ -1,61 +1,62 @@
 import 'package:flutter/material.dart';
-
 import '../../../../theme/color/colors.dart';
 
 class CategoryChips extends StatefulWidget {
-  final List<String> categories;
+  final Map<String, String> categories; // Map of display text (key) to value
   final Function(List<String>)
-      onSelectionChanged; // Callback for the updated list of selected categories
-  final List<String>? selectedCategories;
+  onSelectionChanged; // Callback with selected values
+  final List<String>? selectedValues; // Initial selected values
 
   const CategoryChips({
-    Key? key,
+    super.key,
     required this.categories,
     required this.onSelectionChanged,
-    this.selectedCategories,
-  }) : super(key: key);
+    this.selectedValues,
+  });
 
   @override
   _CategoryChipsState createState() => _CategoryChipsState();
 }
 
 class _CategoryChipsState extends State<CategoryChips> {
-  late List<String>
-      _selectedCategories; // Internal state for selected categories
+  late List<String> _selectedValues; // Internal state for selected values
 
   @override
   void initState() {
     super.initState();
-    _selectedCategories = widget.selectedCategories ?? [];
+    _selectedValues = widget.selectedValues ?? [];
   }
 
-  void _toggleSelection(String category) {
+  void _toggleSelection(String value) {
     setState(() {
-      if (category != widget.categories.first &&
-          _selectedCategories.contains(widget.categories.first)) {
-        _selectedCategories.clear();
-        _selectedCategories.add(category);
+      // Check if the first value is selected and restrict other selections
+      if (value != widget.categories.values.first &&
+          _selectedValues.contains(widget.categories.values.first)) {
+        _selectedValues.clear();
+        _selectedValues.add(value);
 
         return;
       }
 
-      if (category == widget.categories.first &&
-          !_selectedCategories.contains(category)) {
-        _selectedCategories.clear();
-        _selectedCategories.add(category);
+      // If selecting the first value, deselect others
+      if (value == widget.categories.values.first &&
+          !_selectedValues.contains(value)) {
+        _selectedValues.clear();
+        _selectedValues.add(value);
 
         return;
       }
 
-      if (_selectedCategories.contains(category)) {
-        _selectedCategories.remove(category); // Deselect if already selected
+      // Add or remove the selected value
+      if (_selectedValues.contains(value)) {
+        _selectedValues.remove(value);
       } else {
-        _selectedCategories.add(category); // Select if not selected
+        _selectedValues.add(value);
       }
     });
 
-    // Notify parent about the updated list
-    widget.onSelectionChanged(_selectedCategories);
+    // Notify parent about the updated list of selected values
+    widget.onSelectionChanged(_selectedValues);
   }
 
   @override
@@ -63,26 +64,27 @@ class _CategoryChipsState extends State<CategoryChips> {
     return Wrap(
       spacing: 8.0,
       runSpacing: 8.0,
-      children: widget.categories.map((category) {
-        final isSelected = _selectedCategories.contains(category);
+      children: widget.categories.entries.map((entry) {
+        final displayText = entry.key;
+        final value = entry.value;
+        final isSelected = _selectedValues.contains(value);
         return ChoiceChip(
           side: isSelected
               ? BorderSide.none
               : BorderSide(color: TColor.petRock.withOpacity(0.3)),
           showCheckmark: false,
-          label: Text(category),
+          label: Text(displayText),
           labelStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: isSelected ? TColor.doctorWhite : TColor.squidInk,
-                fontWeight: FontWeight.w800,
-                fontSize: 13,
-              ),
-          selectedColor:
-              TColor.poppySurprise, // Highlight color for selected chip
+            color: isSelected ? TColor.doctorWhite : TColor.squidInk,
+            fontWeight: FontWeight.w800,
+            fontSize: 13,
+          ),
+          selectedColor: TColor.poppySurprise, // Highlight color for selected chip
           backgroundColor:
-              TColor.doctorWhite, // Background for non-selected chips
+          TColor.doctorWhite, // Background for non-selected chips
           selected: isSelected,
           onSelected: (_) =>
-              _toggleSelection(category), // Internal selection handler
+              _toggleSelection(value), // Internal selection handler
         );
       }).toList(),
     );

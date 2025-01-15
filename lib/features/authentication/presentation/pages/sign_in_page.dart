@@ -4,23 +4,31 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vou/core/helpers/app_localization_string_builder.dart';
 import 'package:vou/features/authentication/bloc/auth_state.dart';
-import 'package:vou/features/authentication/bloc/sign_up_form_cubit.dart';
 import 'package:vou/shared/styles/border_radius.dart';
 import 'package:vou/shared/styles/horizontal_spacing.dart';
 import 'package:vou/shared/styles/vertical_spacing.dart';
 
 import '../../../../core/router/app_route.dart';
 import '../../../../shared/styles/appbar.dart';
+import '../../../../shared/widgets/loading_widget.dart';
 import '../../../../theme/color/colors.dart';
 import '../../bloc/auth_cubit.dart';
 import '../widget/input_field.dart';
 import '../widget/password_input_field.dart';
 import '../../../../shared/widgets/text_button.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
   SignInPage({super.key});
+
+  @override
+  State<SignInPage> createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
   late TextEditingController _usernameController;
+
   late TextEditingController _passwordController;
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -163,14 +171,25 @@ class SignInPage extends StatelessWidget {
                       child: Center(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            context.getLocaleString(
-                              value: 'login',
-                            ),
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium
-                                ?.copyWith(color: TColor.doctorWhite),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if (authCubit.state is AuthLoading)
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child:
+                                  LoadingWidget.twistingDotsLoadIndicatorBtn(),
+                                ),
+                              Text(
+                                context.getLocaleString(
+                                  value: 'login',
+                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(color: TColor.doctorWhite),
+                              ),
+                            ],
                           ),
                         ),
                       ),

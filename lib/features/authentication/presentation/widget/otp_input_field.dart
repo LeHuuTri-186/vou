@@ -5,8 +5,9 @@ import '../../../../theme/color/colors.dart';
 
 class OtpInputField extends StatefulWidget {
   final TextEditingController? controller;
+  final bool enabled;
 
-  const OtpInputField({super.key, this.controller});
+  const OtpInputField({super.key, this.controller, bool enable = true}): enabled = enable;
 
   @override
   State<OtpInputField> createState() => _OtpInputFieldState();
@@ -35,6 +36,7 @@ class _OtpInputFieldState extends State<OtpInputField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: widget.enabled,
       focusNode: _focusNode,
       textAlign: TextAlign.center,
       controller: widget.controller,

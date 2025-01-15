@@ -4,16 +4,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vou/core/router/app_route.dart';
 import 'package:vou/features/authentication/bloc/auth_cubit.dart';
-import 'package:vou/features/authentication/bloc/auth_state.dart';
 import 'package:vou/shared/styles/border_radius.dart';
 import 'package:vou/shared/styles/horizontal_spacing.dart';
 import 'package:vou/shared/widgets/image_icon.dart';
 
 import '../../../../theme/color/colors.dart';
 
-class AppDrawer extends StatelessWidget {
-  AppDrawer({super.key});
+class AppDrawer extends StatefulWidget {
+  const AppDrawer({super.key});
 
+  @override
+  State<AppDrawer> createState() => _AppDrawerState();
+}
+
+class _AppDrawerState extends State<AppDrawer> {
   late AuthCubit _authCubit;
 
   @override
@@ -44,7 +48,10 @@ class AppDrawer extends StatelessWidget {
                   Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        context.pop();
+                        context.pushNamed(AppRoute.profile);
+                      },
                       borderRadius: TBorderRadius.sm,
                       child: Ink(
                         decoration: const BoxDecoration(

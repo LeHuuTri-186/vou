@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   flutter_localization
+  flutter_tts
   rive_common
   sentry_flutter
 )

@@ -10,7 +10,7 @@ class InputField extends StatefulWidget {
     this.validator,
     this.label,
     this.prefixIcon, this.controller, this.onChanged,
-  });
+    bool enable = true}): enabled = enable;
 
   final String? hintText;
   final String? label;
@@ -18,6 +18,7 @@ class InputField extends StatefulWidget {
   final FormFieldValidator<String>? validator;
   final TextEditingController? controller;
   final Function(String?)? onChanged;
+  final bool enabled;
 
   @override
   State<InputField> createState() => _InputFieldState();
@@ -46,6 +47,7 @@ class _InputFieldState extends State<InputField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: widget.enabled,
       onChanged: widget.onChanged,
       controller: widget.controller,
       maxLength: 30,

@@ -6,7 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:vou/core/router/app_router_config.dart';
 
 class VouApp extends StatelessWidget {
-  VouApp({super.key});
+  const VouApp({super.key});
 
   @override
   Widget build(BuildContext context) {

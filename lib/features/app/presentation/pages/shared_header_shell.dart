@@ -17,7 +17,7 @@ class SharedAppBarScaffold extends StatelessWidget {
     return Scaffold(
       appBar: TAppBar.buildAppBar(context: context, title: title),
       body: child,
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       onDrawerChanged: (isOpened) {
         if (isOpened) {
           FocusScope.of(context).unfocus();

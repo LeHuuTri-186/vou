@@ -23,6 +23,9 @@ class SigningUp extends AuthState {
 class RequestingOtp extends AuthState {
 }
 
+class RegisteredSuccessfully extends AuthState {
+}
+
 class SignUpError extends AuthState {
   final String error;
 

@@ -6,10 +6,10 @@ class CollapsibleCategoryChips extends StatefulWidget {
   final Function(String) onCategorySelected; // Callback for category selection
 
   const CollapsibleCategoryChips({
-    Key? key,
+    super.key,
     required this.categories,
     required this.onCategorySelected,
-  }) : super(key: key);
+  });
 
   @override
   _CollapsibleCategoryChipsState createState() =>

@@ -1,6 +1,4 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../shared/styles/border_radius.dart';
 import '../../../../theme/color/colors.dart';
@@ -13,7 +11,7 @@ class PasswordInputField extends StatefulWidget {
     this.label,
     this.prefixIcon,
     this.controller, this.onChanged,
-  });
+    bool enable = true}): enabled = enable;
 
   final String? hintText;
   final String? label;
@@ -21,6 +19,7 @@ class PasswordInputField extends StatefulWidget {
   final FormFieldValidator<String>? validator;
   final TextEditingController? controller;
   final Function(String?)? onChanged;
+  final bool enabled;
 
   @override
   State<PasswordInputField> createState() => _PasswordInputFieldState();
@@ -50,6 +49,7 @@ class _PasswordInputFieldState extends State<PasswordInputField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: widget.enabled,
       onChanged: widget.onChanged,
       maxLength: 30,
       controller: widget.controller,

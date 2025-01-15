@@ -11,4 +11,7 @@ class AppRoute {
   static const home = '/home';
   static const events = '/event';
   static const otp = '/sign-up/otp';
+  static const searchFriend = 'search-friend';
+  static const myAccount = 'account';
+  static const quiz = "quiz";
 }

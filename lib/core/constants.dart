@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../features/coupon/domain/model/coupon.dart';
 import '../theme/color/colors.dart';
 final $constants = Constants();
 
@@ -8,11 +6,10 @@ final $constants = Constants();
 class Constants {
 
   final Map<String, String> eventFilterOptions = {
-    'ALL': 'All',
-    'UPCOMING': 'Upcoming',
-    'STARTING': 'Ongoing',
-    'ENDED': 'Ended',
-    'FAVORITE': 'Favorite',
+    'All': 'ALL',
+    'Upcoming': 'UPCOMING',
+    'Ongoing': 'STARTING',
+    'Ended': 'ENDED',
   };
 
   final answerColors = [

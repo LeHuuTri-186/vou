@@ -9,6 +9,7 @@ import 'package:vou/features/authentication/bloc/auth_state.dart';
 
 import '../../../../shared/styles/appbar.dart';
 import '../../../../shared/styles/border_radius.dart';
+import '../../../../shared/widgets/loading_widget.dart';
 import '../../../../theme/color/colors.dart';
 import '../../../../shared/styles/horizontal_spacing.dart';
 import '../../../../shared/styles/vertical_spacing.dart';
@@ -19,19 +20,32 @@ import '../widget/number_input_field.dart';
 import '../widget/password_input_field.dart';
 import '../../../../shared/widgets/text_button.dart';
 
-class SignUpPage extends StatelessWidget {
-  SignUpPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
   late SignUpFormCubit _formCubit;
+
   late AuthCubit _authCubit;
 
   final _formKey = GlobalKey<FormState>();
+
   late TextEditingController _usernameController;
+
   late TextEditingController _firstNameController;
+
   late TextEditingController _lastNameController;
+
   late TextEditingController _emailController;
+
   late TextEditingController _phoneController;
+
   final TextEditingController _passwordController = TextEditingController();
+
   final TextEditingController _retypeController = TextEditingController();
 
   @override
@@ -56,8 +70,6 @@ class SignUpPage extends StatelessWidget {
     _emailController = TextEditingController(text: _formCubit.state.email);
     _phoneController =
         TextEditingController(text: _formCubit.state.phoneNumber);
-
-    _formCubit.updatePassword('');
   }
 
   Widget _buildBody(BuildContext context) {
@@ -221,14 +233,25 @@ class SignUpPage extends StatelessWidget {
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                context.getLocaleString(
-                                  value: 'signup',
-                                ),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(color: TColor.doctorWhite),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  if (_authCubit.state is AuthLoading)
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 8.0),
+                                      child:
+                                      LoadingWidget.twistingDotsLoadIndicatorBtn(),
+                                    ),
+                                  Text(
+                                    context.getLocaleString(
+                                      value: 'signup',
+                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(color: TColor.doctorWhite),
+                                  ),
+                                ],
                               ),
                             ),
                           ),

@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vou/core/helpers/datetime_formatter.dart';
 import 'package:vou/features/event/domain/entities/event_model.dart';
 import 'package:vou/shared/styles/border_radius.dart';
@@ -35,6 +36,9 @@ class EventTile extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: NetworkImage(eventModel.image),
+                    fit: BoxFit.fitWidth),
                 color: TColor.poppySurprise,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(
@@ -65,11 +69,43 @@ class EventTile extends StatelessWidget {
                   ),
                   Flexible(
                     flex: 1,
-                    child: _buildActionRow(),
+                    child: _buildActionRow(context),
                   )
                 ],
               ),
             ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () => {
+                      context.push('/event/${eventModel.id}')
+                    },
+                    borderRadius: TBorderRadius.md,
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        color: TColor.poppySurprise,
+                        borderRadius: TBorderRadius.md,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: AutoSizeText(
+                          "Join event",
+                          style:
+                              Theme.of(context).textTheme.titleMedium!.copyWith(
+                                    color: TColor.doctorWhite,
+                                    fontSize: 14,
+                                  ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -91,8 +127,8 @@ class EventTile extends StatelessWidget {
         AutoSizeText(
           eventModel.description,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            fontSize: 16,
-          ),
+                fontSize: 16,
+              ),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           softWrap: true,
@@ -101,9 +137,9 @@ class EventTile extends StatelessWidget {
         AutoSizeText(
           '${DateTimeUtil.formatDateTime(eventModel.startDate)} - ${DateTimeUtil.formatDateTime(eventModel.endDate)}',
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: TColor.petRock,
-            fontSize: 13,
-          ),
+                color: TColor.petRock,
+                fontSize: 13,
+              ),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           softWrap: true,
@@ -112,7 +148,7 @@ class EventTile extends StatelessWidget {
     );
   }
 
-  Row _buildActionRow() {
+  Widget _buildActionRow(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -122,7 +158,7 @@ class EventTile extends StatelessWidget {
           hoverColor: TColor.northEastSnow,
           child: Padding(
             padding: const EdgeInsets.all(3.0),
-            child: true
+            child: !eventModel.hasLiked
                 ? Icon(
                     Icons.star_border_rounded,
                     color: TColor.petRock,

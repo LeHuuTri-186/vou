@@ -10,4 +10,11 @@ class LoadingWidget {
         leftDotColor: TColor.poppySurprise,
         rightDotColor: TColor.tamarama,
       );
+
+  static Widget twistingDotsLoadIndicatorBtn() =>
+      LoadingAnimationWidget.twistingDots(
+        size: 20,
+        leftDotColor: TColor.doctorWhite,
+        rightDotColor: TColor.tamarama,
+      );
 }

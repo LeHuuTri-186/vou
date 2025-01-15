@@ -6,7 +6,7 @@ import 'package:vou/features/event/data/datasources/event_api_datasource.dart';
 
 void main() {
   late Dio dio;
-  late EventApiDatasource eventApiDatasource;
+  late EventApiDataSource eventApiDatasource;
   late DioAdapter dioAdapter;
 
   setUp(
@@ -17,7 +17,7 @@ void main() {
 
       dioAdapter = DioAdapter(dio: dio);
       dio.httpClientAdapter = dioAdapter;
-      eventApiDatasource = EventApiDatasource(dio: dio);
+      eventApiDatasource = EventApiDataSource(dio: dio);
     },
   );
 

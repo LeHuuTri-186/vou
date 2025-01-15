@@ -16,20 +16,20 @@ import '../../../features/authentication/domain/usecases/sign_out_usecase.dart';
 void setUpAuthModule() {
   Dio dio = Dio();
 
-  dio.options.baseUrl = dotenv.env['AUTH_API_BASE_URL'] ?? '';
+  dio.options.baseUrl = dotenv.env['BASE_URL'] ?? '';
 
   dio.interceptors.add(
     $serviceLocator<SharedInterceptor>(),
   );
 
   // Datasource setup
-  $serviceLocator.registerLazySingleton<AuthApiDatasource>(
-      () => AuthApiDatasource(dio: dio));
+  $serviceLocator.registerLazySingleton<AuthApiDataSource>(
+      () => AuthApiDataSource(dio: dio));
 
   // Repository setup
   $serviceLocator.registerLazySingleton<AuthRepository>(() =>
       AuthRepositoryImpl(
-          datasource: $serviceLocator<AuthApiDatasource>(),
+          datasource: $serviceLocator<AuthApiDataSource>(),
           hiveService: $serviceLocator<HiveService>()));
 
   // UseCase setup

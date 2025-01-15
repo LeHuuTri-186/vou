@@ -1,25 +1,55 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-
 import '../../domain/entities/event_model.dart';
 
-part 'event_dto.freezed.dart';
-part 'event_dto.g.dart';
+class EventDto {
+  final String id;
+  final String name;
+  final String description;
+  final String image;
+  final DateTime startDate;
+  final DateTime endDate;
+  final int turnsPerDay;
+  final bool hasLiked;
 
-@freezed
-class EventDto with _$EventDto {
-  const factory EventDto({
-    required String id,
-    required String name,
-    required String description,
-    required String image,
-    required DateTime startDate,
-    required DateTime endDate,
-    required int turnsPerDay,
-  }) = _EventDto;
+  EventDto({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.image,
+    required this.startDate,
+    required this.endDate,
+    required this.turnsPerDay,
+    required this.hasLiked,
+  });
 
-  factory EventDto.fromJson(Map<String, dynamic> json) => _$EventDtoFromJson(json);
+  // Convert JSON to DTO
+  factory EventDto.fromJson(Map<String, dynamic> json) {
+    return EventDto(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      description: json['description'] as String,
+      image: json['image'] as String,
+      startDate: DateTime.parse(json['startDate'] as String),
+      endDate: DateTime.parse(json['endDate'] as String),
+      turnsPerDay: json['turnsPerDay'] as int,
+      hasLiked: json['hasLiked'] as bool,
+    );
+  }
 
-  // Convert DTO to Model
+  // Convert DTO to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'image': image,
+      'startDate': startDate.toIso8601String(),
+      'endDate': endDate.toIso8601String(),
+      'turnsPerDay': turnsPerDay,
+      'hasLiked': hasLiked,
+    };
+  }
+
+  // Convert DTO to Entity
   EventModel toDomain() {
     return EventModel(
       id: id,
@@ -29,10 +59,11 @@ class EventDto with _$EventDto {
       startDate: startDate,
       endDate: endDate,
       turnsPerDay: turnsPerDay,
+      hasLiked: hasLiked,
     );
   }
 
-  // Convert Model to DTO
+  // Convert Entity to DTO
   static EventDto fromDomain(EventModel model) {
     return EventDto(
       id: model.id,
@@ -42,6 +73,7 @@ class EventDto with _$EventDto {
       startDate: model.startDate,
       endDate: model.endDate,
       turnsPerDay: model.turnsPerDay,
+      hasLiked: model.hasLiked,
     );
   }
 }

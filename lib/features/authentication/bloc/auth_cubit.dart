@@ -65,6 +65,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       emit(AuthLoading());
       await _requestOtpUseCase.call(email);
+      emit(RequestingOtp());
     } catch (exception, stackTrace) {
       debugPrint(exception.toString());
       LoggerUtil.captureException(exception, stackTrace: stackTrace);
@@ -76,6 +77,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       emit(AuthLoading());
       await _signUpUseCase.call(model);
+      emit(RegisteredSuccessfully());
     } catch (exception, stackTrace) {
       debugPrint(exception.toString());
       LoggerUtil.captureException(exception, stackTrace: stackTrace);

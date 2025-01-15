@@ -1,72 +1,211 @@
-import 'package:flutter/cupertino.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:vou/features/friend/presentation/widgets/friend_tile.dart';
-import 'package:vou/shared/widgets/buttons_pair.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:vou/core/router/app_route.dart';
 
-import '../../../../shared/styles/appbar.dart';
+import '../../../../shared/styles/border_radius.dart';
 import '../../../../shared/styles/vertical_spacing.dart';
-import '../../../../shared/widgets/search_bar.dart';
-import '../../../event/presentation/widgets/category_chips_selector.dart';
+import '../../../../shared/widgets/image_icon.dart';
+import '../../../../shared/widgets/loading_widget.dart';
+import '../../../../theme/color/colors.dart';
+import '../../bloc/friend_cubit.dart';
+import '../../bloc/friend_state.dart';
+import '../widgets/friend_tile.dart';
 
-class FriendPage extends StatefulWidget {
+class FriendPage extends StatelessWidget {
   const FriendPage({super.key});
 
   @override
-  _FriendPageState createState() => _FriendPageState();
-}
-
-class _FriendPageState extends State<FriendPage> {
-  bool _isFirstButtonSelected = true;
-
-  void _toggleButtonSelection() {
-    setState(() {
-      _isFirstButtonSelected = !_isFirstButtonSelected;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext parentContext) {
+    parentContext.read<FriendCubit>().fetchFriends();
     return Scaffold(
-      appBar: TAppBar.buildAppBar(context: context, title: 'Friend'),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CustomSearchBar(
-                onChanged: (value) {},
-              ),
-              VSpacing.sm,
-              ButtonsPair(
-                borderRadius: 8,
-                isFirstSelected: _isFirstButtonSelected,
-                firstOnTap: _toggleButtonSelection,
-                secondOnTap: _toggleButtonSelection,
-                firstButtonText: "Friend(s)",
-                secondButtonText: "Friend request(s)",
-              ),
-              VSpacing.sm,
-              _isFirstButtonSelected
-                  ? Text('Showing Friends List')
-                  : Text('Showing Friend Requests'),
-              Expanded(
-                child: ListView(
-                  children: [
-                    FriendTile(),
-                    FriendTile(),
-                    FriendTile(),
-                    FriendTile(),
-                    FriendTile(),
-                    FriendTile(),
-                    FriendTile(),
-                    FriendTile(),
-                    FriendTile(),
-                    FriendTile(),
-                  ],
+              Align(
+                alignment: Alignment.centerRight,
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      parentContext.pushNamed(AppRoute.searchFriend);
+                    },
+                    borderRadius: TBorderRadius.md,
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        color: TColor.poppySurprise,
+                        borderRadius: TBorderRadius.md,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: AutoSizeText(
+                          "+ Add friend",
+                          style:
+                              Theme.of(parentContext).textTheme.titleMedium!.copyWith(
+                                    color: TColor.doctorWhite,
+                                    fontSize: 18,
+                                  ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
+              ),
+              VSpacing.md,
+              Expanded(
+                child: BlocBuilder<FriendCubit, FriendState>(
+                    builder: (context, state) {
+                  if (state is FriendError) {
+                    _buildErrorPanel(context);
+                  }
+                  if (state is FriendLoaded) {
+                    if (state.friendList.isEmpty) {
+                      return Align(
+                          alignment: Alignment.topCenter,
+                          child: _buildEmptyPanel(context));
+                    }
+
+                    return ListView.builder(
+                      itemCount: state.friendList.length,
+                      itemBuilder: (_, int index) {
+                        return FriendTile(
+                          friend: state.friendList[index],
+                          onTap: () => context.read<FriendCubit>().unfriend(userId: state.friendList[index].accountId),
+                        );
+                      },
+                    );
+                  }
+                  return SafeArea(
+                    child: Center(
+                      child: LoadingWidget.twistingDotsLoadIndicator(),
+                    ),
+                  );
+                }),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  SafeArea _buildEmptyPanel(BuildContext context) {
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            VSpacing.sm,
+            AutoSizeText(
+              "No Friend found!",
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: TColor.petRock,
+                  ),
+            ),
+            VSpacing.sm,
+            const ImageIconWidget(
+              imagePath: 'assets/images/empty-search.png',
+              width: 300,
+              height: 300,
+            ),
+            VSpacing.sm,
+            AutoSizeText(
+              "Try again!",
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: TColor.petRock,
+                    fontSize: 16,
+                  ),
+            ),
+            VSpacing.sm,
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {
+                  context.read<FriendCubit>().fetchFriends();
+                },
+                borderRadius: TBorderRadius.md,
+                child: Ink(
+                  decoration: BoxDecoration(
+                    color: TColor.poppySurprise,
+                    borderRadius: TBorderRadius.md,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: AutoSizeText(
+                      "Refresh",
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            color: TColor.doctorWhite,
+                          ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            VSpacing.md,
+          ],
+        ),
+      ),
+    );
+  }
+
+  SafeArea _buildErrorPanel(BuildContext context) {
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            VSpacing.sm,
+            AutoSizeText(
+              "An Error occurred!",
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: TColor.petRock,
+                  ),
+            ),
+            VSpacing.sm,
+            const ImageIconWidget(
+              imagePath: 'assets/images/error.png',
+              width: 300,
+              height: 300,
+            ),
+            VSpacing.sm,
+            AutoSizeText(
+              "Please try again!",
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: TColor.petRock,
+                    fontSize: 16,
+                  ),
+            ),
+            VSpacing.sm,
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {
+                  context.read<FriendCubit>().fetchFriends();
+                },
+                borderRadius: TBorderRadius.md,
+                child: Ink(
+                  decoration: BoxDecoration(
+                    color: TColor.poppySurprise,
+                    borderRadius: TBorderRadius.md,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: AutoSizeText(
+                      "Try again",
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            color: TColor.doctorWhite,
+                          ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            VSpacing.md,
+          ],
         ),
       ),
     );

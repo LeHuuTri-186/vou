@@ -1,7 +1,5 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vou/shared/styles/border_radius.dart';
 import 'package:vou/shared/widgets/image_icon.dart';
 
@@ -55,7 +53,7 @@ class BottomNavBar extends StatelessWidget {
         currentIndex == 1 ?
         BottomNavigationBarItem(
           label: '',
-          icon: AnimatedContainer(duration: Duration(milliseconds: 100),
+          icon: AnimatedContainer(duration: const Duration(milliseconds: 100),
               curve: Curves.linear,
               decoration: BoxDecoration(
                   border: Border.all(color: TColor.poppySurprise.withOpacity(0.5), width: 2),
@@ -77,7 +75,7 @@ class BottomNavBar extends StatelessWidget {
         currentIndex == 2 ?
         BottomNavigationBarItem(
           label: '',
-          icon: AnimatedContainer(duration: Duration(milliseconds: 100),
+          icon: AnimatedContainer(duration: const Duration(milliseconds: 100),
               curve: Curves.linear,
               decoration: BoxDecoration(
                   border: Border.all(color: TColor.poppySurprise.withOpacity(0.5), width: 2),
@@ -93,27 +91,6 @@ class BottomNavBar extends StatelessWidget {
           icon: Padding(
             padding: EdgeInsets.all(2.0),
             child: ImageIconWidget(imagePath: 'assets/images/friend.png'),
-          ),
-        ),
-        currentIndex == 3 ?
-        BottomNavigationBarItem(
-          label: '',
-          icon: AnimatedContainer(duration: Duration(milliseconds: 100),
-              curve: Curves.linear,
-              decoration: BoxDecoration(
-                  border: Border.all(color: TColor.poppySurprise.withOpacity(0.5), width: 2),
-                  borderRadius: TBorderRadius.sm,
-                  color: TColor.poppySurprise.withOpacity(0.2)
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(2.0),
-                child: ImageIconWidget(imagePath: 'assets/images/shop.png'),
-              )),
-        ) : const BottomNavigationBarItem(
-          label: '',
-          icon: Padding(
-            padding: EdgeInsets.all(2.0),
-            child: ImageIconWidget(imagePath: 'assets/images/shop.png'),
           ),
         ),
       ],

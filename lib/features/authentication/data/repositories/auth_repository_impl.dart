@@ -9,10 +9,10 @@ import '../../domain/repositories/auth_repository.dart';
 import '../hive_keys.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final AuthApiDatasource _datasource;
+  final AuthApiDataSource _datasource;
   final HiveService _hiveService;
 
-  AuthRepositoryImpl({required AuthApiDatasource datasource, required HiveService hiveService}) : _datasource = datasource, _hiveService = hiveService;
+  AuthRepositoryImpl({required AuthApiDataSource datasource, required HiveService hiveService}) : _datasource = datasource, _hiveService = hiveService;
 
   @override
   Future<String?> getAccessToken() {
@@ -23,6 +23,8 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> login({required String username, required String password}) async {
     Response response = await _datasource.login(username, password);
+
+    debugPrint(response.data.toString());
     if (response.statusCode == 201) {
       await _hiveService.save(HiveKeys.accessToken, response.data['accessToken']);
       await _hiveService.save(HiveKeys.refreshToken, response.data['refreshToken']);
@@ -55,7 +57,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> requestOtp({required String email}) async {
     Response response = await _datasource.getOtp(email);
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       return;
     } else {
       throw Exception(response.statusMessage??'Failed to fetch Otp: ${response.statusCode}');
@@ -66,7 +68,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> signUp({required SignUpDataModel model}) async {
     Response response = await _datasource.signUp(SignUpDataDto.fromDomain(model));
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       return;
     } else {
       throw Exception(response.statusMessage??'Failed to register account: ${response.statusCode}');

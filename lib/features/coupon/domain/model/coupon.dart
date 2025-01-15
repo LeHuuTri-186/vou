@@ -1,22 +1,43 @@
-import 'dart:ui';
+class Coupon {
+  final String id;
+  final String userId;
+  final bool redeemed;
+  final int typeId;
+  final CouponType type;
 
-import 'package:freezed_annotation/freezed_annotation.dart';
+  Coupon({
+    required this.id,
+    required this.userId,
+    required this.redeemed,
+    required this.typeId,
+    required this.type,
+  });
+}
 
-part 'coupon.freezed.dart';
-part 'coupon.g.dart';
+class CouponType {
+  final int id;
+  final String name;
+  final String description;
+  final String? shortDescription;
+  final String image;
+  final String discountType;
+  final double discountValue;
+  final DateTime expiresAt;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final String partnerId;
 
-@freezed
-class Coupon with _$Coupon {
-  const factory Coupon({
-    required String id,
-    required String code,
-    required double discountPercentage,
-    DateTime? expiryDate,
-    bool? isActive,
-    required String brand,
-    required String description,
-    String? logoPath,
-  }) = _Coupon;
-
-  factory Coupon.fromJson(Map<String, dynamic> json) => _$CouponFromJson(json);
+  CouponType({
+    required this.id,
+    required this.name,
+    required this.description,
+    this.shortDescription,
+    required this.image,
+    required this.discountType,
+    required this.discountValue,
+    required this.expiresAt,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.partnerId,
+  });
 }

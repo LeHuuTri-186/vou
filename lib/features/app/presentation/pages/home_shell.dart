@@ -31,7 +31,7 @@ class HomeScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TAppBar.buildAppBar(context: context, title: _getTitle(navigationShell.currentIndex)),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: SafeArea(child: navigationShell),
       bottomNavigationBar: BottomNavBar(currentIndex: navigationShell.currentIndex, onTap: navigationShell.goBranch),
     );

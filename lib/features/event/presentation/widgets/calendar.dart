@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class InfiniteCalendarScreen extends StatefulWidget {
+  const InfiniteCalendarScreen({super.key});
+
   @override
   _InfiniteCalendarScreenState createState() => _InfiniteCalendarScreenState();
 }
